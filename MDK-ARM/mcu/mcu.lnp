@@ -1,0 +1,26 @@
+--cpu Cortex-M4.fp
+"mcu\stm32f4xx_hal_rcc.o"
+"mcu\stm32f4xx_hal_dma_ex.o"
+"mcu\stm32f4xx_hal_flash_ex.o"
+"mcu\stm32f4xx_hal.o"
+"mcu\stm32f4xx_hal_tim_ex.o"
+"mcu\stm32f4xx_hal_dma.o"
+"mcu\stm32f4xx_hal_flash_ramfunc.o"
+"mcu\stm32f4xx_hal_rcc_ex.o"
+"mcu\stm32f4xx_hal_pwr.o"
+"mcu\stm32f4xx_hal_pwr_ex.o"
+"mcu\stm32f4xx_hal_cortex.o"
+"mcu\stm32f4xx_hal_tim.o"
+"mcu\stm32f4xx_hal_flash.o"
+"mcu\stm32f4xx_hal_gpio.o"
+"mcu\startup_stm32f407xx.o"
+"mcu\system_stm32f4xx.o"
+"mcu\stm32f4xx_it.o"
+"mcu\main.o"
+"mcu\stm32f4xx_hal_msp.o"
+"mcu\tim.o"
+"mcu\gpio.o"
+--library_type=microlib --strict --scatter "mcu\mcu.sct"
+--diag_suppress=L6329 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "mcu.map" -o mcu\mcu.axf
