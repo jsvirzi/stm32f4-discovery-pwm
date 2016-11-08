@@ -57,6 +57,9 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN 0 */
 
+uint32_t startTicks, currentTicks;
+int frameCounter = 0;
+
 /* the next two constants must be consistent. 2^3 = 8 */
 const int ppsCalibrationTicksSize = 8;
 const int ppsCalibrationTicksSizeLog = 3;
@@ -138,8 +141,12 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+	startTicks = HAL_GetTick();
   while (1)
   {
+		if(frameCounter == 500) {
+			currentTicks = HAL_GetTick() - startTicks;
+		}
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
