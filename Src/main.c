@@ -59,12 +59,15 @@ void Error_Handler(void);
 
 uint32_t startTicks, currentTicks;
 int frameCounter = 0;
+int pulseCounter = 0;
+unsigned long tim2Counter = 0, lastTim2Counter = 0;
 
-/* the next two constants must be consistent. 2^3 = 8 */
+/* the next three constants must be consistent. 2^3 = 8. mask = 8-1 */
 const int ppsCalibrationTicksSize = 8;
+const int ppsCalibrationTicksSizeMask = 0x7;
 const int ppsCalibrationTicksSizeLog = 3;
 
-unsigned int ppsCalibrationTicks[ppsCalibrationTicksSize];
+unsigned long int ppsCalibrationTicks[ppsCalibrationTicksSize];
 unsigned int ppsCalibrationTicksHead = 0;
 unsigned int ppsCalibrationTicksPoints = 0;
 
@@ -75,6 +78,11 @@ unsigned int getPpsCalibrationTicks() {
 	}
 	acc = acc >> ppsCalibrationTicksSizeLog;
 	return acc;
+}
+
+void pushCalibrationTick(unsigned long int deltaTime) {
+	ppsCalibrationTicks[ppsCalibrationTicksHead] = deltaTime;
+	ppsCalibrationTicksHead = (ppsCalibrationTicksHead + 1) & ppsCalibrationTicksSizeMask;
 }
 
 const int updateRate = 50;
@@ -130,8 +138,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	
 	TIM2->CR1 |= 0x1;
-	TIM2->CCER &= ~0xF;
-	TIM2->CCER |= 0x1;
+	TIM2->ARR = 0xFFFFFFFF;
 	
 	TIM4->CR1 |= 0x1;
 	TIM4->CCER &= ~0xF;

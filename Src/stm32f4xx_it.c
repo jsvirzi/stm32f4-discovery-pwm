@@ -38,6 +38,13 @@
 /* USER CODE BEGIN 0 */
 
 extern int frameCounter;
+extern int pulseCounter;
+// extern unsigned long tim2Counter;
+// extern unsigned long lastTim2Counter;
+// extern unsigned long int ppsCalibrationTicks[];
+// extern unsigned int ppsCalibrationTicksHead;
+// extern const int ppsCalibrationTicksSize;
+// void pushCalibrationTick(unsigned long int deltaTime);
 
 /* USER CODE END 0 */
 
@@ -194,7 +201,23 @@ void EXTI0_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI0_IRQn 0 */
 	
-	++frameCounter;
+	// unsigned long int *p = ppsCalibrationTicks;
+	// lastTim2Counter = tim2Counter;
+	// tim2Counter = htim2.Instance->CNT;
+	// ppsCalibrationTicks[ppsCalibrationTicksHead] = tim2Counter;
+	// ppsCalibrationTicksHead = (ppsCalibrationTicksHead + 1) & (ppsCalibrationTicksSize - 1);
+	
+	// long deltaTime = tim2Counter;
+	// deltaTime = deltaTime - lastTim2Counter;
+	// if(delta < 0) delta = delta + 0x80000000; TODO
+	// pushCalibrationTick(deltaTime);
+	
+	if(EXTI->PR & (1 << 0)) {
+		EXTI->PR |= (1 << 0);
+		++pulseCounter;
+		if(pulseCounter & 1) GPIOD->BSRR = 0x80000000;
+		else GPIOD->BSRR = 0x8000;
+	}
 
   /* USER CODE END EXTI0_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);

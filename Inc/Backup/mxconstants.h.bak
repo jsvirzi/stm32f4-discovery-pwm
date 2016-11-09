@@ -41,8 +41,6 @@
 
 /* Private define ------------------------------------------------------------*/
 
-#define GPS_PPS_Pin GPIO_PIN_0
-#define GPS_PPS_GPIO_Port GPIOE
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
