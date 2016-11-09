@@ -41,6 +41,8 @@
 
 /* Private define ------------------------------------------------------------*/
 
+#define PPS_OUT_Pin GPIO_PIN_13
+#define PPS_OUT_GPIO_Port GPIOD
 #define GPS_PPS_Pin GPIO_PIN_14
 #define GPS_PPS_GPIO_Port GPIOD
 #define LED_Pin GPIO_PIN_15

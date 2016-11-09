@@ -47,6 +47,8 @@ extern const int ppsCalibrationTicksSize;
 void pushCalibrationTick(unsigned long int deltaTime);
 void updatePwmArrPeriods(void);
 void updatePwmArrPeriod(void);
+int ppsOutCounter = 0;
+extern unsigned long int *genericPointer;
 
 /* USER CODE END 0 */
 
@@ -180,6 +182,14 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
+	
+	++ppsOutCounter;
+	int phase = ppsOutCounter % 1000;
+	if(phase == 0) {
+		GPIOD->BSRR = (1 << 13);
+	} else if(phase == 100) {
+		GPIOD->BSRR = (1 << 29);
+	}
 
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
@@ -234,7 +244,7 @@ void EXTI15_10_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI15_10_IRQn 0 */
 
-	unsigned long int *p = ppsCalibrationTicks;
+	genericPointer = ppsCalibrationTicks;
 	lastTim2Counter = tim2Counter;
 	tim2Counter = htim2.Instance->CNT;
 	long int deltaTime = tim2Counter;

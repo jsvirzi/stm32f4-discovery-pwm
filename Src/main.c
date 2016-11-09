@@ -61,6 +61,7 @@ uint32_t startTicks, currentTicks;
 int frameCounter = 0;
 int pulseCounter = 0;
 unsigned long tim2Counter = 0, lastTim2Counter = 0;
+unsigned long int *genericPointer = 0;
 
 /* the next three constants must be consistent. 2^3 = 8. mask = 8-1 */
 const int ppsCalibrationTicksSize = 8;
@@ -70,14 +71,17 @@ const int ppsCalibrationTicksSizeLog = 3;
 unsigned long int ppsCalibrationTicks[ppsCalibrationTicksSize];
 unsigned int ppsCalibrationTicksHead = 0;
 unsigned int ppsCalibrationTicksPoints = 0;
+unsigned long int tickAcc;
+unsigned long tmpPeriod;
 
 unsigned int averageCalibrationTicks() {
-	unsigned int i, acc = 0;
+	int i;
+	tickAcc = 0;
 	for(i=0;i<ppsCalibrationTicksSize;++i) {
-		acc += ppsCalibrationTicks[i];
+		tickAcc += ppsCalibrationTicks[i];
 	}
-	acc = acc >> ppsCalibrationTicksSizeLog;
-	return acc;
+	tickAcc = tickAcc >> ppsCalibrationTicksSizeLog;
+	return tickAcc;
 }
 
 // void pushCalibrationTick(unsigned long int deltaTime) {
@@ -97,18 +101,22 @@ void updatePwmArrPeriods() {
 	unsigned int ppsCalibrationTicks = averageCalibrationTicks();
 	unsigned int pwmPeriod = ppsCalibrationTicks / updateRate;
 	unsigned int pwmRemainder = ppsCalibrationTicks - pwmPeriod * updateRate;
-	unsigned int acc = 0;
+	tickAcc = 0;
 	int i;
 	for(i=0;i<updateRate;++i) {
-		unsigned int period = pwmPeriod;
-		if(acc < pwmRemainder) ++period;
-		pPwmArr[i] = period;
-		++acc;
+		tmpPeriod = pwmPeriod;
+		if(tickAcc < pwmRemainder) {
+			++tmpPeriod;
+		}
+		pPwmArr[i] = tmpPeriod;
+		++tickAcc;
 	}
 }
 
 void updatePwmArrPeriod() {
-	TIM4->ARR = pwmArr[pwmArrPhase];
+	unsigned long int arr = pwmArr[pwmArrPhase];
+	if(arr == 0) return;
+	TIM4->ARR = arr;
 	++pwmArrPhase;
 	if(pwmArrPhase >= pwmArrSize) pwmArrPhase = 0;
 }
@@ -140,9 +148,10 @@ int main(void)
 	TIM2->CR1 |= 0x1;
 	TIM2->ARR = 0xFFFFFFFF;
 	
-	TIM4->CR1 |= 0x1;
+	TIM4->CR1 |= 0x81;
 	TIM4->CCER &= ~0xF;
 	TIM4->CCER |= 0x1;
+	TIM4->DIER |= 0x1;
 
   /* USER CODE END 2 */
 
