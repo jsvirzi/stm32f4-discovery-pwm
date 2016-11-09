@@ -39,12 +39,14 @@
 
 extern int frameCounter;
 extern int pulseCounter;
-// extern unsigned long tim2Counter;
-// extern unsigned long lastTim2Counter;
-// extern unsigned long int ppsCalibrationTicks[];
-// extern unsigned int ppsCalibrationTicksHead;
-// extern const int ppsCalibrationTicksSize;
-// void pushCalibrationTick(unsigned long int deltaTime);
+extern unsigned long tim2Counter;
+extern unsigned long lastTim2Counter;
+extern unsigned long int ppsCalibrationTicks[];
+extern unsigned int ppsCalibrationTicksHead;
+extern const int ppsCalibrationTicksSize;
+void pushCalibrationTick(unsigned long int deltaTime);
+void updatePwmArrPeriods(void);
+void updatePwmArrPeriod(void);
 
 /* USER CODE END 0 */
 
@@ -195,38 +197,6 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
-* @brief This function handles EXTI line0 interrupt.
-*/
-void EXTI0_IRQHandler(void)
-{
-  /* USER CODE BEGIN EXTI0_IRQn 0 */
-	
-	// unsigned long int *p = ppsCalibrationTicks;
-	// lastTim2Counter = tim2Counter;
-	// tim2Counter = htim2.Instance->CNT;
-	// ppsCalibrationTicks[ppsCalibrationTicksHead] = tim2Counter;
-	// ppsCalibrationTicksHead = (ppsCalibrationTicksHead + 1) & (ppsCalibrationTicksSize - 1);
-	
-	// long deltaTime = tim2Counter;
-	// deltaTime = deltaTime - lastTim2Counter;
-	// if(delta < 0) delta = delta + 0x80000000; TODO
-	// pushCalibrationTick(deltaTime);
-	
-	if(EXTI->PR & (1 << 0)) {
-		EXTI->PR |= (1 << 0);
-		++pulseCounter;
-		if(pulseCounter & 1) GPIOD->BSRR = 0x80000000;
-		else GPIOD->BSRR = 0x8000;
-	}
-
-  /* USER CODE END EXTI0_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
-  /* USER CODE BEGIN EXTI0_IRQn 1 */
-
-  /* USER CODE END EXTI0_IRQn 1 */
-}
-
-/**
 * @brief This function handles TIM2 global interrupt.
 */
 void TIM2_IRQHandler(void)
@@ -248,12 +218,49 @@ void TIM4_IRQHandler(void)
   /* USER CODE BEGIN TIM4_IRQn 0 */
 	
 	++frameCounter;
+	updatePwmArrPeriod();
 
   /* USER CODE END TIM4_IRQn 0 */
   HAL_TIM_IRQHandler(&htim4);
   /* USER CODE BEGIN TIM4_IRQn 1 */
 
   /* USER CODE END TIM4_IRQn 1 */
+}
+
+/**
+* @brief This function handles EXTI line[15:10] interrupts.
+*/
+void EXTI15_10_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+
+	unsigned long int *p = ppsCalibrationTicks;
+	lastTim2Counter = tim2Counter;
+	tim2Counter = htim2.Instance->CNT;
+	long int deltaTime = tim2Counter;
+	deltaTime = deltaTime - lastTim2Counter;
+	ppsCalibrationTicks[ppsCalibrationTicksHead] = deltaTime;
+	ppsCalibrationTicksHead = (ppsCalibrationTicksHead + 1) & (ppsCalibrationTicksSize - 1);
+	updatePwmArrPeriods();
+	
+	// long deltaTime = tim2Counter;
+	// deltaTime = deltaTime - lastTim2Counter;
+	// if(delta < 0) delta = delta + 0x80000000; TODO
+	// pushCalibrationTick(deltaTime);
+	
+	// TODO get EXTI working
+//	if(EXTI->PR & (1 << 0)) {
+//		EXTI->PR |= (1 << 0);
+		++pulseCounter;
+		if(pulseCounter & 1) GPIOD->BSRR = 0x80000000;
+		else GPIOD->BSRR = 0x8000;
+//	}
+
+  /* USER CODE END EXTI15_10_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_14);
+  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+
+  /* USER CODE END EXTI15_10_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

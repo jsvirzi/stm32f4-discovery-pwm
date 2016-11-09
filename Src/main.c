@@ -71,7 +71,7 @@ unsigned long int ppsCalibrationTicks[ppsCalibrationTicksSize];
 unsigned int ppsCalibrationTicksHead = 0;
 unsigned int ppsCalibrationTicksPoints = 0;
 
-unsigned int getPpsCalibrationTicks() {
+unsigned int averageCalibrationTicks() {
 	unsigned int i, acc = 0;
 	for(i=0;i<ppsCalibrationTicksSize;++i) {
 		acc += ppsCalibrationTicks[i];
@@ -80,10 +80,10 @@ unsigned int getPpsCalibrationTicks() {
 	return acc;
 }
 
-void pushCalibrationTick(unsigned long int deltaTime) {
-	ppsCalibrationTicks[ppsCalibrationTicksHead] = deltaTime;
-	ppsCalibrationTicksHead = (ppsCalibrationTicksHead + 1) & ppsCalibrationTicksSizeMask;
-}
+// void pushCalibrationTick(unsigned long int deltaTime) {
+// 	ppsCalibrationTicks[ppsCalibrationTicksHead] = deltaTime;
+// 	ppsCalibrationTicksHead = (ppsCalibrationTicksHead + 1) & ppsCalibrationTicksSizeMask;
+// }
 
 const int updateRate = 50;
 const int pwmArrSize = 2 * updateRate;
@@ -94,7 +94,7 @@ int pwmArrPingPongPhase = 0, pwmArrPhase = 0;
 void updatePwmArrPeriods() {
 	unsigned int *pPwmArr = (pwmArrPingPongPhase == 0) ? pwmArrPong : pwmArrPing;
 	pwmArrPingPongPhase = (pwmArrPingPongPhase == 0) ? 1 : 0;
-	unsigned int ppsCalibrationTicks = getPpsCalibrationTicks();
+	unsigned int ppsCalibrationTicks = averageCalibrationTicks();
 	unsigned int pwmPeriod = ppsCalibrationTicks / updateRate;
 	unsigned int pwmRemainder = ppsCalibrationTicks - pwmPeriod * updateRate;
 	unsigned int acc = 0;
@@ -108,7 +108,7 @@ void updatePwmArrPeriods() {
 }
 
 void updatePwmArrPeriod() {
-	TIM2->ARR = pwmArr[pwmArrPhase];
+	TIM4->ARR = pwmArr[pwmArrPhase];
 	++pwmArrPhase;
 	if(pwmArrPhase >= pwmArrSize) pwmArrPhase = 0;
 }
