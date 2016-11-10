@@ -75,6 +75,7 @@ unsigned long int tickAcc;
 unsigned long tmpPeriod;
 
 unsigned int averageCalibrationTicks() {
+//	return ppsCalibrationTicks[ppsCalibrationTicksHead];
 	int i;
 	tickAcc = 0;
 	for(i=0;i<ppsCalibrationTicksSize;++i) {
