@@ -90,7 +90,10 @@ unsigned int averageCalibrationTicks() {
 // 	ppsCalibrationTicksHead = (ppsCalibrationTicksHead + 1) & ppsCalibrationTicksSizeMask;
 // }
 
-const int updateRate = 50;
+// const int defaultPwmPeriod = 20000;
+// const int updateRate = 50;
+const int defaultPwmPeriod = 50000;
+const int updateRate = 20;
 const int pwmArrSize = 2 * updateRate;
 unsigned int pwmArr[pwmArrSize];
 unsigned int *pwmArrPing = &pwmArr[0], *pwmArrPong = &pwmArr[updateRate];
@@ -116,8 +119,8 @@ void updatePwmArrPeriods() {
 
 void updatePwmArrPeriod() {
 	unsigned long int arr = pwmArr[pwmArrPhase];
-	if(arr == 0) return;
 	TIM4->ARR = arr;
+	pwmArr[pwmArrPhase] = defaultPwmPeriod; /* will be overwritten with good data later */
 	++pwmArrPhase;
 	if(pwmArrPhase >= pwmArrSize) pwmArrPhase = 0;
 }
@@ -145,6 +148,11 @@ int main(void)
   MX_TIM4_Init();
 
   /* USER CODE BEGIN 2 */
+	
+	int i;
+	for(i=0;i<pwmArrSize;++i) {
+		pwmArr[i] = defaultPwmPeriod;
+	}
 	
 	TIM2->CR1 |= 0x1;
 	TIM2->ARR = 0xFFFFFFFF;

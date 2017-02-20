@@ -43,6 +43,8 @@
 
 #define PPS_OUT_Pin GPIO_PIN_13
 #define PPS_OUT_GPIO_Port GPIOD
+#define GOOD_PPS_IN_Pin GPIO_PIN_14
+#define GOOD_PPS_IN_GPIO_Port GPIOD
 #define LED_Pin GPIO_PIN_15
 #define LED_GPIO_Port GPIOD
 #define PPS_IN_Pin GPIO_PIN_0
