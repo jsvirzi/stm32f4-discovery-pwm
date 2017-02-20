@@ -44,11 +44,13 @@ extern unsigned long lastTim2Counter;
 extern unsigned long int ppsCalibrationTicks[];
 extern unsigned int ppsCalibrationTicksHead;
 extern const int ppsCalibrationTicksSize;
+extern const int ppsCalibrationTicksSizeMask;
 void pushCalibrationTick(unsigned long int deltaTime);
-void updatePwmArrPeriods(void);
-void updatePwmArrPeriod(void);
+// void updatePwmArrPeriods(void);
+// void updatePwmArrPeriod(void);
 int ppsOutCounter = 0;
 extern unsigned long int *genericPointer;
+extern int frameRate;
 
 /* USER CODE END 0 */
 
@@ -213,17 +215,35 @@ void EXTI0_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI0_IRQn 0 */
 
-	if(EXTI->PR & (1 << 0)) {
-		genericPointer = ppsCalibrationTicks;
-		lastTim2Counter = tim2Counter;
-		tim2Counter = htim2.Instance->CNT;
-		long int deltaTime = tim2Counter;
-		deltaTime = deltaTime - lastTim2Counter;
-		ppsCalibrationTicks[ppsCalibrationTicksHead] = deltaTime;
-		ppsCalibrationTicksHead = (ppsCalibrationTicksHead + 1) & (ppsCalibrationTicksSize - 1);
-		updatePwmArrPeriods();	
-		EXTI->PR |= (1 << 0);
+	if(EXTI->PR & (1 << 0)) { /* happens each gps pulse */
+		
+		/* for calibrating pps to internal clock */
+ 		lastTim2Counter = tim2Counter;
+ 		tim2Counter = htim2.Instance->CNT;
+ 		long int deltaTime = tim2Counter;
+ 		deltaTime = deltaTime - lastTim2Counter;
+ 		ppsCalibrationTicks[ppsCalibrationTicksHead] = deltaTime;
+ 		ppsCalibrationTicksHead = (ppsCalibrationTicksHead + 1) & ppsCalibrationTicksSizeMask;
+		
 		++pulseCounter;
+		uint32_t tmpFrameCounter = frameCounter; /* keep a snapshot because frameCounter changes externally */
+
+		/*
+		 * check if current pulse width is producing too few or too many frames
+		 */
+		uint32_t expectedFrames = pulseCounter * frameRate;
+		uint32_t arr = TIM4->ARR;
+		if(expectedFrames > tmpFrameCounter) {
+			++arr; /* too few */
+			TIM4->ARR = arr;
+		} else if(expectedFrames < tmpFrameCounter) {
+			--arr; /* too many */
+			TIM4->ARR = arr;
+		}
+
+		EXTI->PR |= (1 << 0); /* clear the interrupt */
+		
+		/* LED */
 		if(pulseCounter & 1) GPIOD->BSRR = 0x80000000;
 		else GPIOD->BSRR = 0x8000;
 	}
@@ -257,7 +277,7 @@ void TIM4_IRQHandler(void)
   /* USER CODE BEGIN TIM4_IRQn 0 */
 	
 	++frameCounter;
-	updatePwmArrPeriod();
+	// updatePwmArrPeriod();
 
   /* USER CODE END TIM4_IRQn 0 */
   HAL_TIM_IRQHandler(&htim4);

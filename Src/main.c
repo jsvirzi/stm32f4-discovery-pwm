@@ -57,31 +57,39 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN 0 */
 
-uint32_t startTicks, currentTicks;
-int frameCounter = 0;
-int pulseCounter = 0;
+int frameCountingStarted = 0; /* set when we have started counting frame pulses */
+uint32_t frameCounter = 0; /* number of outgoing frame pulses */
+uint32_t pulseCounter = 0; /* number of incoming gps pulses */
+int frameRate = 20; /* 20 Hz frame rate out */
+
+int compareFramesToPulses() {
+	uint32_t expectedFrames = pulseCounter * frameRate;
+	if(frameCounter > expectedFrames) return 1;
+	else if(frameCounter < expectedFrames) return -1;
+	else return 0;
+}
+
+// uint32_t startTicks, currentTicks;
 unsigned long tim2Counter = 0, lastTim2Counter = 0;
-unsigned long int *genericPointer = 0;
+// unsigned long int *genericPointer = 0;
 
 /* the next three constants must be consistent. 2^3 = 8. mask = 8-1 */
 const int ppsCalibrationTicksSize = 8;
 const int ppsCalibrationTicksSizeMask = 0x7;
-const int ppsCalibrationTicksSizeLog = 3;
+// const int ppsCalibrationTicksSizeLog = 3;
 
 unsigned long int ppsCalibrationTicks[ppsCalibrationTicksSize];
 unsigned int ppsCalibrationTicksHead = 0;
 unsigned int ppsCalibrationTicksPoints = 0;
 unsigned long int tickAcc;
-unsigned long tmpPeriod;
+// unsigned long tmpPeriod;
 
-unsigned int averageCalibrationTicks() {
-//	return ppsCalibrationTicks[ppsCalibrationTicksHead];
+unsigned int totalCalibrationTicks() {
 	int i;
 	tickAcc = 0;
 	for(i=0;i<ppsCalibrationTicksSize;++i) {
 		tickAcc += ppsCalibrationTicks[i];
 	}
-	tickAcc = tickAcc >> ppsCalibrationTicksSizeLog;
 	return tickAcc;
 }
 
@@ -94,36 +102,18 @@ unsigned int averageCalibrationTicks() {
 // const int updateRate = 50;
 const int defaultPwmPeriod = 50000;
 const int updateRate = 20;
-const int pwmArrSize = 2 * updateRate;
-unsigned int pwmArr[pwmArrSize];
-unsigned int *pwmArrPing = &pwmArr[0], *pwmArrPong = &pwmArr[updateRate];
-int pwmArrPingPongPhase = 0, pwmArrPhase = 0;
+// const int pwmArrSize = 2 * updateRate;
+// unsigned int pwmArr[pwmArrSize];
+// unsigned int *pwmArrPing = &pwmArr[0], *pwmArrPong = &pwmArr[updateRate];
+// int pwmArrPingPongPhase = 0, pwmArrPhase = 0;
 
-void updatePwmArrPeriods() {
-	unsigned int *pPwmArr = (pwmArrPingPongPhase == 0) ? pwmArrPong : pwmArrPing;
-	pwmArrPingPongPhase = (pwmArrPingPongPhase == 0) ? 1 : 0;
-	unsigned int ppsCalibrationTicks = averageCalibrationTicks();
-	unsigned int pwmPeriod = ppsCalibrationTicks / updateRate;
-	unsigned int pwmRemainder = ppsCalibrationTicks - pwmPeriod * updateRate;
-	tickAcc = 0;
-	int i;
-	for(i=0;i<updateRate;++i) {
-		tmpPeriod = pwmPeriod;
-		if(tickAcc < pwmRemainder) {
-			++tmpPeriod;
-		}
-		pPwmArr[i] = tmpPeriod;
-		++tickAcc;
-	}
-}
-
-void updatePwmArrPeriod() {
-	unsigned long int arr = pwmArr[pwmArrPhase];
-	TIM4->ARR = arr;
-	pwmArr[pwmArrPhase] = defaultPwmPeriod; /* will be overwritten with good data later */
-	++pwmArrPhase;
-	if(pwmArrPhase >= pwmArrSize) pwmArrPhase = 0;
-}
+// void updatePwmArrPeriod() {
+//	uint32_t expectedFrames = pulseCounter * frameRate;
+//	uint32_t arr = TIM4->ARR;
+//	if(expectedFrames > frameCounter) --arr;
+//	else if(expectedFrames < frameCounter) ++arr;
+//	TIM4->ARR = arr;
+// }
 
 /* USER CODE END 0 */
 
@@ -149,10 +139,10 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
 	
-	int i;
-	for(i=0;i<pwmArrSize;++i) {
-		pwmArr[i] = defaultPwmPeriod;
-	}
+//	int i;
+//	for(i=0;i<pwmArrSize;++i) {
+//		pwmArr[i] = defaultPwmPeriod;
+//	}
 	
 	TIM2->CR1 |= 0x1;
 	TIM2->ARR = 0xFFFFFFFF;
@@ -161,17 +151,18 @@ int main(void)
 	TIM4->CCER &= ~0xF;
 	TIM4->CCER |= 0x1;
 	TIM4->DIER |= 0x1;
+	TIM4->ARR = defaultPwmPeriod;
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	startTicks = HAL_GetTick();
+//	startTicks = HAL_GetTick();
   while (1)
   {
-		if(frameCounter == 500) {
-			currentTicks = HAL_GetTick() - startTicks;
-		}
+//		if(frameCounter == 500) {
+//			currentTicks = HAL_GetTick() - startTicks;
+//		}
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
