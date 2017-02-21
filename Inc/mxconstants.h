@@ -4,7 +4,7 @@
   * Description        : This file contains the common defines of the application
   ******************************************************************************
   *
-  * COPYRIGHT(c) 2016 STMicroelectronics
+  * COPYRIGHT(c) 2017 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -41,14 +41,18 @@
 
 /* Private define ------------------------------------------------------------*/
 
+#define PPS_IN_Pin GPIO_PIN_0
+#define PPS_IN_GPIO_Port GPIOA
+#define FRAME_PULSE_Pin GPIO_PIN_1
+#define FRAME_PULSE_GPIO_Port GPIOA
+#define PPS_PULSE_Pin GPIO_PIN_2
+#define PPS_PULSE_GPIO_Port GPIOA
 #define PPS_OUT_Pin GPIO_PIN_13
 #define PPS_OUT_GPIO_Port GPIOD
 #define GOOD_PPS_IN_Pin GPIO_PIN_14
 #define GOOD_PPS_IN_GPIO_Port GPIOD
 #define LED_Pin GPIO_PIN_15
 #define LED_GPIO_Port GPIOD
-#define PPS_IN_Pin GPIO_PIN_0
-#define PPS_IN_GPIO_Port GPIOE
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

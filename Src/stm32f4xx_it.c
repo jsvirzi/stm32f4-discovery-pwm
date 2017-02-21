@@ -4,7 +4,7 @@
   * @brief   Interrupt Service Routines.
   ******************************************************************************
   *
-  * COPYRIGHT(c) 2016 STMicroelectronics
+  * COPYRIGHT(c) 2017 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -49,8 +49,15 @@ void pushCalibrationTick(unsigned long int deltaTime);
 // void updatePwmArrPeriods(void);
 // void updatePwmArrPeriod(void);
 int ppsOutCounter = 0;
-extern unsigned long int *genericPointer;
+// extern unsigned long int *genericPointer;
 extern int frameRate;
+uint32_t expectedFrames;
+uint32_t tmpFrameCounter;
+uint32_t arr;
+int frameDeficit;
+int loopPacerCounter = 0;
+int loopPacerDivisor = 1;
+int started = 0;
 
 /* USER CODE END 0 */
 
@@ -214,8 +221,9 @@ void SysTick_Handler(void)
 void EXTI0_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI0_IRQn 0 */
-
 	if(EXTI->PR & (1 << 0)) { /* happens each gps pulse */
+		
+		started = 1;
 		
 		/* for calibrating pps to internal clock */
  		lastTim2Counter = tim2Counter;
@@ -225,21 +233,29 @@ void EXTI0_IRQHandler(void)
  		ppsCalibrationTicks[ppsCalibrationTicksHead] = deltaTime;
  		ppsCalibrationTicksHead = (ppsCalibrationTicksHead + 1) & ppsCalibrationTicksSizeMask;
 		
-		++pulseCounter;
-		uint32_t tmpFrameCounter = frameCounter; /* keep a snapshot because frameCounter changes externally */
+		tmpFrameCounter = frameCounter; /* keep a snapshot because frameCounter changes externally */
 
 		/*
 		 * check if current pulse width is producing too few or too many frames
 		 */
-		uint32_t expectedFrames = pulseCounter * frameRate;
-		uint32_t arr = TIM4->ARR;
-		if(expectedFrames > tmpFrameCounter) {
-			++arr; /* too few */
-			TIM4->ARR = arr;
-		} else if(expectedFrames < tmpFrameCounter) {
-			--arr; /* too many */
-			TIM4->ARR = arr;
+		++loopPacerCounter;
+		if(loopPacerCounter == loopPacerDivisor) {
+			expectedFrames = pulseCounter * frameRate;
+			frameDeficit = expectedFrames - tmpFrameCounter;
+			int frameAdjust = frameDeficit * frameDeficit;
+			if((100 < frameDeficit) && (frameDeficit < 100)) frameAdjust = abs(frameDeficit);
+			arr = TIM4->ARR;
+			if(frameDeficit > 0) {
+				arr -= frameAdjust; /* too few */
+				TIM4->ARR = arr;
+			} else if(frameDeficit < 0) {
+				arr += frameAdjust;
+				// arr += 256; /* too many */
+				TIM4->ARR = arr;
+			}
+			loopPacerCounter = 0;
 		}
+		++pulseCounter;		
 
 		EXTI->PR |= (1 << 0); /* clear the interrupt */
 		
@@ -275,8 +291,11 @@ void TIM2_IRQHandler(void)
 void TIM4_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM4_IRQn 0 */
-	
-	++frameCounter;
+	if(started) {
+		++frameCounter;
+	}
+	if(frameCounter & 1) GPIOA->BSRR = 0x00000002;
+	else GPIOA->BSRR = 0x00020000;
 	// updatePwmArrPeriod();
 
   /* USER CODE END TIM4_IRQn 0 */
