@@ -45,6 +45,7 @@ extern unsigned long int ppsCalibrationTicks[];
 extern unsigned int ppsCalibrationTicksHead;
 extern const int ppsCalibrationTicksSize;
 extern const int ppsCalibrationTicksSizeMask;
+extern const int ppsCalibrationTicksSizeLog;
 void pushCalibrationTick(unsigned long int deltaTime);
 // void updatePwmArrPeriods(void);
 // void updatePwmArrPeriod(void);
@@ -223,6 +224,8 @@ void EXTI0_IRQHandler(void)
   /* USER CODE BEGIN EXTI0_IRQn 0 */
 	if(EXTI->PR & (1 << 0)) { /* happens each gps pulse */
 		
+		TIM4->CNT = 0; // jsv
+		
 		started = 1;
 		
 		/* for calibrating pps to internal clock */
@@ -232,6 +235,15 @@ void EXTI0_IRQHandler(void)
  		deltaTime = deltaTime - lastTim2Counter;
  		ppsCalibrationTicks[ppsCalibrationTicksHead] = deltaTime;
  		ppsCalibrationTicksHead = (ppsCalibrationTicksHead + 1) & ppsCalibrationTicksSizeMask;
+		
+		if(loopPacerCounter && (ppsCalibrationTicksHead == 0)) {
+			uint32_t i, acc = 0;
+			for(i=0;i<ppsCalibrationTicksSize;++i) {
+				acc += ppsCalibrationTicks[i];
+			}
+			arr = acc >> ppsCalibrationTicksSizeLog;
+			TIM4->ARR = arr;
+		}
 		
 		tmpFrameCounter = frameCounter; /* keep a snapshot because frameCounter changes externally */
 
@@ -247,11 +259,10 @@ void EXTI0_IRQHandler(void)
 			arr = TIM4->ARR;
 			if(frameDeficit > 0) {
 				arr -= frameAdjust; /* too few */
-				TIM4->ARR = arr;
+				// TIM4->ARR = arr;
 			} else if(frameDeficit < 0) {
 				arr += frameAdjust;
-				// arr += 256; /* too many */
-				TIM4->ARR = arr;
+				// TIM4->ARR = arr;
 			}
 			loopPacerCounter = 0;
 		}

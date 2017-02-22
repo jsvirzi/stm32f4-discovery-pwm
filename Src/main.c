@@ -74,9 +74,9 @@ unsigned long tim2Counter = 0, lastTim2Counter = 0;
 // unsigned long int *genericPointer = 0;
 
 /* the next three constants must be consistent. 2^3 = 8. mask = 8-1 */
-const int ppsCalibrationTicksSize = 8;
-const int ppsCalibrationTicksSizeMask = 0x7;
-// const int ppsCalibrationTicksSizeLog = 3;
+const int ppsCalibrationTicksSize = 16;
+const int ppsCalibrationTicksSizeMask = 0xF;
+const int ppsCalibrationTicksSizeLog = 4;
 
 unsigned long int ppsCalibrationTicks[ppsCalibrationTicksSize];
 unsigned int ppsCalibrationTicksHead = 0;
