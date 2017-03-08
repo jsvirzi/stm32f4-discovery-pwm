@@ -51,6 +51,8 @@
 #define GOOD_PPS_IN_GPIO_Port GPIOD
 #define LED_Pin GPIO_PIN_15
 #define LED_GPIO_Port GPIOD
+#define PPS_IN_Pin GPIO_PIN_0
+#define PPS_IN_GPIO_Port GPIOE
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

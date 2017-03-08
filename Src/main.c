@@ -33,6 +33,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
@@ -136,6 +137,7 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM2_Init();
   MX_TIM4_Init();
+  MX_USART2_UART_Init();
 
   /* USER CODE BEGIN 2 */
 	
@@ -152,6 +154,8 @@ int main(void)
 	TIM4->CCER |= 0x1;
 	TIM4->DIER |= 0x1;
 	TIM4->ARR = defaultPwmPeriod;
+	
+	huart2.Instance->DR = 'A';
 
   /* USER CODE END 2 */
 
