@@ -38,6 +38,9 @@
 
 /* USER CODE BEGIN Includes */
 
+#include "serial.h"
+#include "uart.h"
+
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -122,6 +125,8 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
+	
+	initUarts();
 
   /* USER CODE END 1 */
 
@@ -138,6 +143,7 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM4_Init();
   MX_USART2_UART_Init();
+  MX_USART1_UART_Init();
 
   /* USER CODE BEGIN 2 */
 	
@@ -155,6 +161,10 @@ int main(void)
 	TIM4->DIER |= 0x1;
 	TIM4->ARR = defaultPwmPeriod;
 	
+	unsigned int value = huart1.Instance->CR1;
+	value |= uartRxNEIE;
+//	huart1.Instance->CR1 = value;
+	
 	huart2.Instance->DR = 'A';
 
   /* USER CODE END 2 */
@@ -170,6 +180,11 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
+		
+		if(huart1.Instance->SR & uartRxNE) {
+			unsigned char ch = huart1.Instance->DR;
+			huart2.Instance->DR = ch;
+		}
 
   }
   /* USER CODE END 3 */

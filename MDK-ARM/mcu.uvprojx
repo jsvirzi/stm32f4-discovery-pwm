@@ -335,7 +335,7 @@
               <MiscControls>--C99</MiscControls>
               <Define>USE_HAL_DRIVER,STM32F407xx</Define>
               <Undefine />
-              <IncludePath>../Inc;                           ../Drivers/STM32F4xx_HAL_Driver/Inc;                           ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;                           ../Drivers/CMSIS/Include;                           ../Drivers/CMSIS/Device/ST/STM32F4xx/Include</IncludePath>
+              <IncludePath>../Inc;                             ../Drivers/STM32F4xx_HAL_Driver/Inc;                             ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;                             ../Drivers/CMSIS/Include;                             ../Drivers/CMSIS/Device/ST/STM32F4xx/Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -449,11 +449,12 @@
               <FileType>1</FileType>
               <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c</FilePath>
             </File>
-          <File>
+            <File>
               <FileName>stm32f4xx_hal_uart.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c</FilePath>
-            </File></Files>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>Application/MDK-ARM</GroupName>
@@ -503,11 +504,12 @@
               <FileType>1</FileType>
               <FilePath>../Src/gpio.c</FilePath>
             </File>
-          <File>
+            <File>
               <FileName>usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/usart.c</FilePath>
-            </File></Files>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>

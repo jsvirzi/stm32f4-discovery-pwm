@@ -53,6 +53,8 @@
 #define GOOD_PPS_IN_GPIO_Port GPIOD
 #define LED_Pin GPIO_PIN_15
 #define LED_GPIO_Port GPIOD
+#define GPS_NMEA_RxD_Pin GPIO_PIN_10
+#define GPS_NMEA_RxD_GPIO_Port GPIOA
 #define TxToHost_Pin GPIO_PIN_5
 #define TxToHost_GPIO_Port GPIOD
 #define PPS_IN_Pin GPIO_PIN_0
