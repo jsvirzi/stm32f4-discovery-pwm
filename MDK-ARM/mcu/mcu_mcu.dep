@@ -496,7 +496,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h)(0x580D85E2)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x580D85E2)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x580D85E2)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x580D85E2)
-F (../Src/stm32f4xx_it.c)(0x58C0E8F8)(-c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Include -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-IC:\Users\jsvir\projects\mapping-timing\mcu\MDK-ARM\RTE-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="521" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx --C99-o mcu\stm32f4xx_it.o --omf_browse mcu\stm32f4xx_it.crf --depend mcu\stm32f4xx_it.d)
+F (../Src/stm32f4xx_it.c)(0x58C0EBCD)(-c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Include -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-IC:\Users\jsvir\projects\mapping-timing\mcu\MDK-ARM\RTE-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="521" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx --C99-o mcu\stm32f4xx_it.o --omf_browse mcu\stm32f4xx_it.crf --depend mcu\stm32f4xx_it.d)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x580D85E2)
 I (../Inc/stm32f4xx_hal_conf.h)(0x58C0DBC1)
 I (../Inc/mxconstants.h)(0x58C0DBC1)
@@ -528,9 +528,10 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x580D85E2)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x580D85E2)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x580D85E2)
 I (../Inc/stm32f4xx_it.h)(0x58C0DBC1)
-I (../Inc/serial.h)(0x58C0E8F8)
-I (../Inc/uart.h)(0x58C0E93A)
-F (../Src/main.c)(0x58C0E8F8)(-c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Include -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-IC:\Users\jsvir\projects\mapping-timing\mcu\MDK-ARM\RTE-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="521" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx --C99-o mcu\main.o --omf_browse mcu\main.crf --depend mcu\main.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x574F1116)
+I (../Inc/serial.h)(0x58C0EB7F)
+I (../Inc/uart.h)(0x58C0EF3B)
+F (../Src/main.c)(0x58C0EFD3)(-c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Include -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-IC:\Users\jsvir\projects\mapping-timing\mcu\MDK-ARM\RTE-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="521" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx --C99-o mcu\main.o --omf_browse mcu\main.crf --depend mcu\main.d)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x580D85E2)
 I (../Inc/stm32f4xx_hal_conf.h)(0x58C0DBC1)
 I (../Inc/mxconstants.h)(0x58C0DBC1)
@@ -564,8 +565,8 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x580D85E2)
 I (../Inc/tim.h)(0x58C0DBC1)
 I (../Inc/usart.h)(0x58C0DBC1)
 I (../Inc/gpio.h)(0x58C0DBC1)
-I (../Inc/serial.h)(0x58C0E8F8)
-I (../Inc/uart.h)(0x58C0E93A)
+I (../Inc/serial.h)(0x58C0EB7F)
+I (../Inc/uart.h)(0x58C0EF3B)
 F (../Src/stm32f4xx_hal_msp.c)(0x58C0DBC1)(-c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Include -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-IC:\Users\jsvir\projects\mapping-timing\mcu\MDK-ARM\RTE-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="521" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx --C99-o mcu\stm32f4xx_hal_msp.o --omf_browse mcu\stm32f4xx_hal_msp.crf --depend mcu\stm32f4xx_hal_msp.d)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x580D85E2)
 I (../Inc/stm32f4xx_hal_conf.h)(0x58C0DBC1)
@@ -695,3 +696,41 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x580D85E2)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x580D85E2)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x580D85E2)
 I (../Inc/gpio.h)(0x58C0DBC1)
+F (..\Src\serial.c)(0x58C0EB7F)(-c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Include -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-IC:\Users\jsvir\projects\mapping-timing\mcu\MDK-ARM\RTE-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="521" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx --C99-o mcu\serial.o --omf_browse mcu\serial.crf --depend mcu\serial.d)
+I (../Inc/serial.h)(0x58C0EB7F)
+F (..\Src\uart.c)(0x58C0EF3B)(-c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Include -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-IC:\Users\jsvir\projects\mapping-timing\mcu\MDK-ARM\RTE-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="521" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx --C99-o mcu\uart.o --omf_browse mcu\uart.crf --depend mcu\uart.d)
+I (../Inc/usart.h)(0x58C0DBC1)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x580D85E2)
+I (../Inc/stm32f4xx_hal_conf.h)(0x58C0DBC1)
+I (../Inc/mxconstants.h)(0x58C0DBC1)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x580D85E2)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h)(0x580D85E2)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x580D8290)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x580D8290)
+I (../Drivers/CMSIS/Include/core_cm4.h)(0x580D8292)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x574F1116)
+I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x580D8292)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x580D8292)
+I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x580D8292)
+I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x580D8292)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x580D8290)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x580D85E2)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x574F1116)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h)(0x580D85E2)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h)(0x580D85E2)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h)(0x580D85E2)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h)(0x580D85E2)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h)(0x580D85E2)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h)(0x580D85E2)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h)(0x580D85E2)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h)(0x580D85E2)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h)(0x580D85E2)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h)(0x580D85E2)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h)(0x580D85E2)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x580D85E2)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x580D85E2)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x580D85E2)
+I (../Inc/serial.h)(0x58C0EB7F)
+I (../Inc/uart.h)(0x58C0EF3B)
+F (..\Inc\serial.h)(0x58C0EB7F)()
+F (..\Inc\uart.h)(0x58C0EF3B)()

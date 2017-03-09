@@ -8,8 +8,8 @@ typedef struct {
 	int head, tail, length, mask;
 } SimpleCircularQueue;
 
-int initSimpleCircularQueue(SimpleCircularQueue *queue, unsigned char *buff, int length);
-int pushSimpleCircularQueue(SimpleCircularQueue *queue, unsigned char ch);
+void initSimpleCircularQueue(SimpleCircularQueue *queue, unsigned char *buff, int length);
+void pushSimpleCircularQueue(SimpleCircularQueue *queue, unsigned char *ch, int nChars);
 int popSimpleCircularQueue(SimpleCircularQueue *queue, unsigned char *ch, int maxChars);
 
 #endif

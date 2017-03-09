@@ -37,6 +37,7 @@
 
 /* USER CODE BEGIN 0 */
 
+#include "stdlib.h"
 #include "serial.h"
 #include "uart.h"
 
@@ -333,7 +334,7 @@ void USART1_IRQHandler(void)
 	
 	if(huart1.Instance->SR & uartRxNE) {
 		unsigned char ch = huart1.Instance->DR;
-		pushSimpleCircularQueue(&uart1Queue, ch);
+		pushSimpleCircularQueue(&uart1Queue, &ch, 1);
 	}
 	
   /* USER CODE END USART1_IRQn 0 */
@@ -352,7 +353,7 @@ void USART2_IRQHandler(void)
 
 	if(huart2.Instance->SR & uartRxNE) {
 		unsigned char ch = huart2.Instance->DR;
-		pushSimpleCircularQueue(&uart2Queue, ch);
+		pushSimpleCircularQueue(&uart2Queue, &ch, 1);
 	}
 	
   /* USER CODE END USART2_IRQn 0 */

@@ -163,7 +163,7 @@ int main(void)
 	
 	unsigned int value = huart1.Instance->CR1;
 	value |= uartRxNEIE;
-//	huart1.Instance->CR1 = value;
+	huart1.Instance->CR1 = value;
 	
 	huart2.Instance->DR = 'A';
 
@@ -181,10 +181,14 @@ int main(void)
 
   /* USER CODE BEGIN 3 */
 		
-		if(huart1.Instance->SR & uartRxNE) {
-			unsigned char ch = huart1.Instance->DR;
-			huart2.Instance->DR = ch;
-		}
+	  unsigned char ch;
+	  if(popSimpleCircularQueue(&uart1Queue, &ch, 1)) {
+		  uartSendChar(&huart2, ch);
+	  }
+//		if(huart1.Instance->SR & uartRxNE) {
+//			unsigned char ch = huart1.Instance->DR;
+//			huart2.Instance->DR = ch;
+//		}
 
   }
   /* USER CODE END 3 */
