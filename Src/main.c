@@ -166,6 +166,10 @@ int main(void)
 	huart1.Instance->CR1 = value;
 	
 	huart2.Instance->DR = 'A';
+	
+	const char *header = "$GPRMS";
+	const char *trailer = "*";
+	int start, final;
 
   /* USER CODE END 2 */
 
@@ -180,15 +184,18 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
+
+//	  processUarts();
+	  
+//		int status = syncSerialStream(&uart1RxQueue, header, trailer, &start, &final);
+//		if(status == 0) {
+//			cat("hello, world\n");
+//		}
 		
 	  unsigned char ch;
-	  if(popSimpleCircularQueue(&uart1Queue, &ch, 1)) {
+	  if(popSimpleCircularQueue(&uart1RxQueue, &ch, 1)) {
 		  uartSendChar(&huart2, ch);
 	  }
-//		if(huart1.Instance->SR & uartRxNE) {
-//			unsigned char ch = huart1.Instance->DR;
-//			huart2.Instance->DR = ch;
-//		}
 
   }
   /* USER CODE END 3 */
