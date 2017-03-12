@@ -22,7 +22,7 @@ const int fieldSize = 32;
 const int numberOfFields = 16;
 char fields[numberOfFields][fieldSize];
 
-const int uart2TxBufferSize = 1024;
+const int uart2TxBufferSize = 16 * 1024;
 unsigned char uart2TxBuffer[uart2TxBufferSize];
 
 /* specific to our system */
@@ -57,4 +57,5 @@ int splitString(SimpleCircularQueue *queue, int first, int final) {
 
 void cat(char *str) {
 	queueSendString(&uart2TxQueue, str, 0);
+	queueSendString(&uart2TxQueue, "\r", 1);
 }

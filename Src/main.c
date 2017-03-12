@@ -193,8 +193,10 @@ int main(void)
 	  
 		int status = syncSerialStream(&uart1RxQueue, header, trailer, &start, &final);
 		if(status == 0) {
-			huart2.Instance->DR = 'A';
-			cat("hello, world\n");
+			splitString(&uart1RxQueue, start, final);
+//			uart1RxQueue.tail = final;
+//			huart2.Instance->DR = 'A';
+//			cat("hello, world\n");
 		}
 		
 //	  unsigned char ch;
