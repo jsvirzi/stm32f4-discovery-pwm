@@ -3,7 +3,7 @@
 
 #include "serial.h"
 
-/* TODO */
+/* TODO using this in this function for debugging */
 void cat(char *str);
 
 /* note: length must be a power of 2 */
@@ -16,11 +16,14 @@ void initSimpleCircularQueue(SimpleCircularQueue *queue, unsigned char *buff, in
 }
 
 void pushSimpleCircularQueue(SimpleCircularQueue *queue, unsigned char *ch, int nChars) {
+	if(nChars == 0) {
+		nChars = strlen((char *)ch);
+	}
 	int n = nChars; /* save value */
 	while(nChars--) {
 		queue->buff[queue->head] = *ch++;
+		queue->head = (queue->head + 1) & queue->mask;
 	}
-	queue->head = (queue->head + n) & queue->mask; /* update tail after bytes have been transferred */
 }
 
 void queueSendString(SimpleCircularQueue *queue, char *str, int nChars) {
@@ -103,10 +106,15 @@ if(verbose) {
 			
 if(verbose) {
 	snprintf(logBuffer, sizeof(logBuffer), "syncSerialStream(): start = %d stop = %d buffer = [", *start, *stop);
+	int index = strlen(logBuffer);
 	j = *stop - *start;
 	if(j < 0) j += queue->length;
-	for(i=0;i<j;++i) printf("%c", queue->buff[(*start) + i]);
-	printf("]\n");
+	for(i=0;i<j;++i) {
+		snprintf(logBuffer + index, sizeof(logBuffer) - index, "%c", queue->buff[(*start) + i]);
+		++index;
+	}
+	snprintf(logBuffer + index, sizeof(logBuffer) - index, "]\n");
+	cat(logBuffer);
 }
 			return 0;
 		}

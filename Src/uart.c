@@ -13,14 +13,10 @@ SimpleCircularQueue uart2RxQueue;
 const int uart1RxBufferSize = 1024;
 const int uart1RxBufferSizeMask = 1023;
 unsigned char uart1RxBuffer[uart1RxBufferSize];
-// int uart1RxBufferHead = 0;
-// int uart1RxBufferTail = 0;
 
 const int uart2RxBufferSize = 1024;
 const int uart2RxBufferSizeMask = 1023;
 unsigned char uart2RxBuffer[uart2RxBufferSize];
-// int uart2RxBufferHead = 0;
-// int uart2RxBufferTail = 0;
 
 const int fieldSize = 32;
 const int numberOfFields = 16;
@@ -61,5 +57,4 @@ int splitString(SimpleCircularQueue *queue, int first, int final) {
 
 void cat(char *str) {
 	queueSendString(&uart2TxQueue, str, 0);
-
 }

@@ -65,6 +65,7 @@ int frameCountingStarted = 0; /* set when we have started counting frame pulses 
 uint32_t frameCounter = 0; /* number of outgoing frame pulses */
 uint32_t pulseCounter = 0; /* number of incoming gps pulses */
 int frameRate = 20; /* 20 Hz frame rate out */
+volatile uint32_t clockTicks = 0;
 
 int compareFramesToPulses() {
 	uint32_t expectedFrames = pulseCounter * frameRate;
@@ -167,7 +168,7 @@ int main(void)
 	
 	huart2.Instance->DR = 'A';
 	
-	const char *header = "$GPRMS";
+	const char *header = "$GPRMC";
 	const char *trailer = "*";
 	int start, final;
 
@@ -185,17 +186,21 @@ int main(void)
 
   /* USER CODE BEGIN 3 */
 
-//	  processUarts();
+//	  int timeout = clockTicks + 1000;
+//	  while(clockTicks < timeout) {
+		processUarts();
+//	  }
 	  
-//		int status = syncSerialStream(&uart1RxQueue, header, trailer, &start, &final);
-//		if(status == 0) {
-//			cat("hello, world\n");
-//		}
+		int status = syncSerialStream(&uart1RxQueue, header, trailer, &start, &final);
+		if(status == 0) {
+			huart2.Instance->DR = 'A';
+			cat("hello, world\n");
+		}
 		
-	  unsigned char ch;
-	  if(popSimpleCircularQueue(&uart1RxQueue, &ch, 1)) {
-		  uartSendChar(&huart2, ch);
-	  }
+//	  unsigned char ch;
+//	  if(popSimpleCircularQueue(&uart1RxQueue, &ch, 1)) {
+//		  uartSendChar(&huart2, ch);
+//	  }
 
   }
   /* USER CODE END 3 */

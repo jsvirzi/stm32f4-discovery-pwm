@@ -66,6 +66,7 @@ int frameDeficit;
 int loopPacerCounter = 0;
 int loopPacerDivisor = 1;
 int started = 0;
+extern uint32_t clockTicks;
 
 /* USER CODE END 0 */
 
@@ -201,6 +202,7 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
+	++clockTicks;
 	
 	++ppsOutCounter;
 	int phase = ppsOutCounter % 1000;
