@@ -18,5 +18,6 @@ void uartSendChar(UART_HandleTypeDef *huart, unsigned char ch);
 void processUarts(void);
 void cat(char *str);
 int splitString(SimpleCircularQueue *queue, int first, int final);
+char *getField(int id, int fieldIndex);
 
 #endif

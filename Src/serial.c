@@ -7,19 +7,21 @@
 void cat(char *str);
 
 /* note: length must be a power of 2 */
-void initSimpleCircularQueue(SimpleCircularQueue *queue, unsigned char *buff, int length) {
+void initSimpleCircularQueue(SimpleCircularQueue *queue, unsigned char *buff, int length, int id) {
 	queue->buff = buff;
 	queue->length = length;
 	queue->head = 0;
 	queue->tail = 0;
 	queue->mask = length - 1;
+	queue->id = id;
+	int i;
+	for(i=0;i<length;++i) buff[i] = 0;
 }
 
 void pushSimpleCircularQueue(SimpleCircularQueue *queue, unsigned char *ch, int nChars) {
 	if(nChars == 0) {
 		nChars = strlen((char *)ch);
 	}
-	int n = nChars; /* save value */
 	while(nChars--) {
 		queue->buff[queue->head] = *ch++;
 		queue->head = (queue->head + 1) & queue->mask;
@@ -88,7 +90,7 @@ int syncSerialStream(SimpleCircularQueue *queue, const char *header, const char 
 	int n = head - tail;
 	if(n < 0) n += queue->length;
 	k = n - lenh - lent;
-	if(k < 0) return 0; /* not enough data collected */
+	if(k < 0) return 1; /* not enough data collected */
 
 //if(verbose) {
 //	snprintf(logBuffer, sizeof(logBuffer), "syncSerialStream(): head = %d tail = %d\n", head, tail);

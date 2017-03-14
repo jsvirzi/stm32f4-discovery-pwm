@@ -166,44 +166,43 @@ int main(void)
 	value |= uartRxNEIE;
 	huart1.Instance->CR1 = value;
 	
+	value = huart2.Instance->CR1;
+	value |= uartRxNEIE;
+	huart2.Instance->CR1 = value;
+	
 	huart2.Instance->DR = 'A';
 	
-	const char *header = "$GPRMC";
-	const char *trailer = "*";
+	const char *header1 = "$GPRMC";
+	const char *trailer1 = "*";
+	const char *header2 = "$AT";
+	const char *trailer2 = "*";
 	int start, final;
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-//	startTicks = HAL_GetTick();
   while (1)
   {
-//		if(frameCounter == 500) {
-//			currentTicks = HAL_GetTick() - startTicks;
-//		}
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-
-//	  int timeout = clockTicks + 1000;
-//	  while(clockTicks < timeout) {
 		processUarts();
-//	  }
-	  
-		int status = syncSerialStream(&uart1RxQueue, header, trailer, &start, &final);
+		int status = syncSerialStream(&uart1RxQueue, header1, trailer1, &start, &final);
 		if(status == 0) {
 			splitString(&uart1RxQueue, start, final);
-//			uart1RxQueue.tail = final;
-//			huart2.Instance->DR = 'A';
-//			cat("hello, world\n");
 		}
-		
-//	  unsigned char ch;
-//	  if(popSimpleCircularQueue(&uart1RxQueue, &ch, 1)) {
-//		  uartSendChar(&huart2, ch);
-//	  }
-
+		status = syncSerialStream(&uart2RxQueue, header2, trailer2, &start, &final);
+		if(status == 0) {
+			splitString(&uart2RxQueue, start, final);
+			char str[32];
+			int fieldIndex = 0;
+			snprintf(str, sizeof(str), "index = %d. field = [%s]\n", fieldIndex, getField(2, fieldIndex));
+			cat(str);
+			++fieldIndex;
+			snprintf(str, sizeof(str), "index = %d. field = [%s]\n", fieldIndex, getField(2, fieldIndex));
+			cat(str);
+		}
   }
   /* USER CODE END 3 */
 

@@ -20,16 +20,33 @@ unsigned char uart2RxBuffer[uart2RxBufferSize];
 
 const int fieldSize = 32;
 const int numberOfFields = 16;
-char fields[numberOfFields][fieldSize];
+char uart1FieldBuffers[numberOfFields][fieldSize];
+char uart2FieldBuffers[numberOfFields][fieldSize];
+char *uart1Fields[numberOfFields];
+char *uart2Fields[numberOfFields];
 
 const int uart2TxBufferSize = 16 * 1024;
 unsigned char uart2TxBuffer[uart2TxBufferSize];
 
+char *getField(int id, int fieldIndex) {
+	if(id == 1) {
+		return uart1Fields[fieldIndex];
+	} else if(id == 2) {
+		return uart2Fields[fieldIndex];
+	}
+	return 0;
+}
+
 /* specific to our system */
 void initUarts() {
-	initSimpleCircularQueue(&uart1RxQueue, uart1RxBuffer, uart1RxBufferSize);
-	initSimpleCircularQueue(&uart2TxQueue, uart2TxBuffer, uart2TxBufferSize);
-	initSimpleCircularQueue(&uart2RxQueue, uart2RxBuffer, uart2RxBufferSize);
+	initSimpleCircularQueue(&uart1RxQueue, uart1RxBuffer, uart1RxBufferSize, 1);
+	initSimpleCircularQueue(&uart2TxQueue, uart2TxBuffer, uart2TxBufferSize, 2);
+	initSimpleCircularQueue(&uart2RxQueue, uart2RxBuffer, uart2RxBufferSize, 2);
+	int i;
+	for(i=0;i<numberOfFields;++i) {
+		uart1Fields[i] = uart1FieldBuffers[i];
+		uart2Fields[i] = uart2FieldBuffers[i];
+	}
 }
 
 void procUart(UART_HandleTypeDef *huart, SimpleCircularQueue *queue) {
@@ -52,7 +69,12 @@ void uartSendChar(UART_HandleTypeDef *huart, unsigned char ch) {
 }
 
 int splitString(SimpleCircularQueue *queue, int first, int final) {
-	return split(queue, first, final, (char **)fields, numberOfFields);
+	if(queue->id == 1) {
+		return split(queue, first, final, (char **)uart1Fields, numberOfFields);
+	} else if(queue->id == 2) {
+		return split(queue, first, final, (char **)uart2Fields, numberOfFields);
+	}
+	return -1;
 }
 
 void cat(char *str) {
