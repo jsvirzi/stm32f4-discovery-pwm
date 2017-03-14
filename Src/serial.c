@@ -4,6 +4,7 @@
 #include "serial.h"
 
 /* TODO using this in this function for debugging */
+extern int verbose;
 void cat(char *str);
 
 /* note: length must be a power of 2 */
@@ -81,7 +82,6 @@ int strncmpQueue(SimpleCircularQueue *queue, int start, const char *s, int lengt
 	return 0;
 }
 
-int verbose = 1;
 char logBuffer[1024];
 /* 0 is success. start/stop are inclusive of the endpoints, e.g. contain header and trailer */
 int syncSerialStream(SimpleCircularQueue *queue, const char *header, const char *trailer, int *start, int *stop) {
