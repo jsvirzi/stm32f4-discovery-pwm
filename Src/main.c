@@ -38,6 +38,10 @@
 
 /* USER CODE BEGIN Includes */
 
+#include "stdio.h"
+#include "string.h"
+#include "stdlib.h"
+
 #include "serial.h"
 #include "uart.h"
 
@@ -61,11 +65,14 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN 0 */
 
+int verbose = 1;
 int frameCountingStarted = 0; /* set when we have started counting frame pulses */
 uint32_t frameCounter = 0; /* number of outgoing frame pulses */
 uint32_t pulseCounter = 0; /* number of incoming gps pulses */
 int frameRate = 20; /* 20 Hz frame rate out */
 volatile uint32_t clockTicks = 0;
+volatile int enableFrames = 1;
+volatile int generateFrames = 0;
 
 int compareFramesToPulses() {
 	uint32_t expectedFrames = pulseCounter * frameRate;
@@ -194,10 +201,27 @@ int main(void)
 		}
 		status = syncSerialStream(&uart2RxQueue, header2, trailer2, &start, &final);
 		if(status == 0) {
-			int j, k = splitString(&uart2RxQueue, start, final);
 			char str[32];
+			int j, k = splitString(&uart2RxQueue, start, final);
 			for(j=0;j<k;++j) {
 				snprintf(str, sizeof(str), "index = %d. field = [%s]\n", j, getField(2, j));
+				cat(str);
+			}
+			if(strcmp(getField(2, 0), "$ATENAF") == 0) {
+				enableFrames = 1;
+				snprintf(str, sizeof(str), "enabling frames\n");
+				cat(str);
+			} else if(strcmp(getField(2, 0), "$ATDISF") == 0) {
+				enableFrames = 0;
+				snprintf(str, sizeof(str), "disabling frames\n");
+				cat(str);
+			} else if(strcmp(getField(2, 0), "$ATGENF") == 0) {
+				generateFrames = atoi(getField(2, 1));
+				snprintf(str, sizeof(str), "generating %d frames\n", generateFrames);
+				cat(str);
+			} else if(strcmp(getField(2, 0), "$ATVERBOSE") == 0) {
+				verbose = atoi(getField(2, 1));
+				snprintf(str, sizeof(str), "verbose = %d\n", verbose);
 				cat(str);
 			}
 		}
