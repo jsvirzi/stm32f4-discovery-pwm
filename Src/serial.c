@@ -3,7 +3,7 @@
 
 #include "serial.h"
 
-/* TODO */
+/* TODO using this in this function for debugging */
 void cat(char *str);
 
 /* note: length must be a power of 2 */
@@ -16,11 +16,14 @@ void initSimpleCircularQueue(SimpleCircularQueue *queue, unsigned char *buff, in
 }
 
 void pushSimpleCircularQueue(SimpleCircularQueue *queue, unsigned char *ch, int nChars) {
+	if(nChars == 0) {
+		nChars = strlen((char *)ch);
+	}
 	int n = nChars; /* save value */
 	while(nChars--) {
 		queue->buff[queue->head] = *ch++;
+		queue->head = (queue->head + 1) & queue->mask;
 	}
-	queue->head = (queue->head + n) & queue->mask; /* update tail after bytes have been transferred */
 }
 
 void queueSendString(SimpleCircularQueue *queue, char *str, int nChars) {
@@ -38,7 +41,8 @@ int popSimpleCircularQueue(SimpleCircularQueue *queue, unsigned char *ch, int ma
 	return nChars;
 }
 
-/* splits csv fields inside queue into different fields */
+/* splits csv fields inside queue into different fields.
+	fills the fields with 0, and sets the tail = final when done */
 int split(SimpleCircularQueue *queue, int first, int final, char **fields, int maxFields) {
 	char delimiter = ',';
 	int i, pos, fieldIndex = 0;
@@ -46,6 +50,7 @@ int split(SimpleCircularQueue *queue, int first, int final, char **fields, int m
 	i = 0;
 	for(pos=first;pos!=final;) {
 		char ch = (unsigned char)queue->buff[pos];
+		queue->buff[pos] = 0;
 		if(ch == delimiter) {
 			p[i] = 0; /* finish out current field */
 			p = fields[++fieldIndex]; /* next field */
@@ -56,6 +61,7 @@ int split(SimpleCircularQueue *queue, int first, int final, char **fields, int m
 		}
 		pos = (pos + 1) & queue->mask;
 	}
+	queue->tail = final;
 	return fieldIndex;
 }
 
@@ -74,24 +80,20 @@ int strncmpQueue(SimpleCircularQueue *queue, int start, const char *s, int lengt
 
 int verbose = 1;
 char logBuffer[1024];
-/* 0 is success */
+/* 0 is success. start/stop are inclusive of the endpoints, e.g. contain header and trailer */
 int syncSerialStream(SimpleCircularQueue *queue, const char *header, const char *trailer, int *start, int *stop) {
 	int i, j, k, lenh = strlen(header), lent = strlen(trailer);
 	int head = queue->head, tail = queue->tail;
-
-if(verbose) {
-	snprintf(logBuffer, sizeof(logBuffer), "syncSerialStream(): head = %d tail = %d\n", head, tail);
-	cat(logBuffer);
-}
 
 	int n = head - tail;
 	if(n < 0) n += queue->length;
 	k = n - lenh - lent;
 	if(k < 0) return 0; /* not enough data collected */
 
-if(verbose) {
-	snprintf(logBuffer, sizeof(logBuffer), "syncSerialStream(): enough data\n");
-}
+//if(verbose) {
+//	snprintf(logBuffer, sizeof(logBuffer), "syncSerialStream(): head = %d tail = %d\n", head, tail);
+//	cat(logBuffer);
+//}
 
 	for(i=0;i<n;++i) {
 		j = tail + i;
@@ -103,10 +105,15 @@ if(verbose) {
 			
 if(verbose) {
 	snprintf(logBuffer, sizeof(logBuffer), "syncSerialStream(): start = %d stop = %d buffer = [", *start, *stop);
+	int index = strlen(logBuffer);
 	j = *stop - *start;
 	if(j < 0) j += queue->length;
-	for(i=0;i<j;++i) printf("%c", queue->buff[(*start) + i]);
-	printf("]\n");
+	for(i=0;i<j;++i) {
+		snprintf(logBuffer + index, sizeof(logBuffer) - index, "%c", queue->buff[(*start) + i]);
+		++index;
+	}
+	snprintf(logBuffer + index, sizeof(logBuffer) - index, "]\n");
+	cat(logBuffer);
 }
 			return 0;
 		}
