@@ -44,6 +44,8 @@
 extern SimpleCircularQueue uart1Queue;
 extern SimpleCircularQueue uart2Queue;
 
+extern int enableFrames;
+extern int generateFrames;
 extern int frameCounter;
 extern int pulseCounter;
 extern unsigned long tim2Counter;
@@ -254,10 +256,22 @@ void EXTI0_IRQHandler(void)
 			for(i=0;i<ppsCalibrationTicksSize;++i) {
 				acc += ppsCalibrationTicks[i];
 			}
-			arr = acc >> ppsCalibrationTicksSizeLog;
-			TIM4->ARR = arr;
+			arr = acc >> ppsCalibrationTicksSizeLog;			
+			TIM4->ARR = arr; /* TODO am I reaching here? */
 		}
 		
+		uint32_t regVal = TIM4->CR1;
+		if(enableFrames || generateFrames) {
+			if(generateFrames > 0) --generateFrames;
+			if((regVal & 0x81) != 0x81) {
+				TIM4->CR1 |= 0x81;
+			}
+		} else {
+			if((regVal & 0x81) != 0) {
+				TIM4->CR1 &= ~0x81;
+			}
+		}
+			
 		tmpFrameCounter = frameCounter; /* keep a snapshot because frameCounter changes externally */
 
 		/*
@@ -320,7 +334,6 @@ void TIM4_IRQHandler(void)
 	}
 	if(frameCounter & 1) GPIOA->BSRR = 0x00000002;
 	else GPIOA->BSRR = 0x00020000;
-	// updatePwmArrPeriod();
 
   /* USER CODE END TIM4_IRQn 0 */
   HAL_TIM_IRQHandler(&htim4);
