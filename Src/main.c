@@ -194,14 +194,12 @@ int main(void)
 		}
 		status = syncSerialStream(&uart2RxQueue, header2, trailer2, &start, &final);
 		if(status == 0) {
-			splitString(&uart2RxQueue, start, final);
+			int j, k = splitString(&uart2RxQueue, start, final);
 			char str[32];
-			int fieldIndex = 0;
-			snprintf(str, sizeof(str), "index = %d. field = [%s]\n", fieldIndex, getField(2, fieldIndex));
-			cat(str);
-			++fieldIndex;
-			snprintf(str, sizeof(str), "index = %d. field = [%s]\n", fieldIndex, getField(2, fieldIndex));
-			cat(str);
+			for(j=0;j<k;++j) {
+				snprintf(str, sizeof(str), "index = %d. field = [%s]\n", j, getField(2, j));
+				cat(str);
+			}
 		}
   }
   /* USER CODE END 3 */

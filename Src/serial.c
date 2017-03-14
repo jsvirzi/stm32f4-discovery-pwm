@@ -60,6 +60,7 @@ int split(SimpleCircularQueue *queue, int first, int final, char **fields, int m
 			i = 0; /* reset position within field */
 		} else {
 			p[i++] = ch;
+			p[i] = 0; /* just in case, null terminate */
 		}
 		pos = (pos + 1) & queue->mask;
 	}
