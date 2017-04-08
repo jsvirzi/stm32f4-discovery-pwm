@@ -387,6 +387,15 @@ Section Cross References
     usart.o(i.MX_USART2_UART_Init) refers to stm32f4xx_hal_uart.o(i.HAL_UART_Init) for HAL_UART_Init
     usart.o(i.MX_USART2_UART_Init) refers to main.o(i.Error_Handler) for Error_Handler
     usart.o(i.MX_USART2_UART_Init) refers to usart.o(.bss) for .bss
+    serial.o(i.pushSimpleCircularQueue) refers to strlen.o(.text) for strlen
+    serial.o(i.queueSendString) refers to serial.o(i.pushSimpleCircularQueue) for pushSimpleCircularQueue
+    serial.o(i.strncmpQueue) refers to strlen.o(.text) for strlen
+    serial.o(i.syncSerialStream) refers to strlen.o(.text) for strlen
+    serial.o(i.syncSerialStream) refers to serial.o(i.strncmpQueue) for strncmpQueue
+    serial.o(i.syncSerialStream) refers to printf3.o(i.__0snprintf$3) for __2snprintf
+    serial.o(i.syncSerialStream) refers to uart.o(i.cat) for cat
+    serial.o(i.syncSerialStream) refers to main.o(.data) for verbose
+    serial.o(i.syncSerialStream) refers to serial.o(.bss) for .bss
     uart.o(i.cat) refers to serial.o(i.queueSendString) for queueSendString
     uart.o(i.cat) refers to uart.o(.bss) for .bss
     uart.o(i.getField) refers to uart.o(.bss) for .bss
@@ -398,15 +407,6 @@ Section Cross References
     uart.o(i.processUarts) refers to usart.o(.bss) for huart2
     uart.o(i.splitString) refers to serial.o(i.split) for split
     uart.o(i.splitString) refers to uart.o(.bss) for .bss
-    serial.o(i.pushSimpleCircularQueue) refers to strlen.o(.text) for strlen
-    serial.o(i.queueSendString) refers to serial.o(i.pushSimpleCircularQueue) for pushSimpleCircularQueue
-    serial.o(i.strncmpQueue) refers to strlen.o(.text) for strlen
-    serial.o(i.syncSerialStream) refers to strlen.o(.text) for strlen
-    serial.o(i.syncSerialStream) refers to serial.o(i.strncmpQueue) for strncmpQueue
-    serial.o(i.syncSerialStream) refers to printf3.o(i.__0snprintf$3) for __2snprintf
-    serial.o(i.syncSerialStream) refers to uart.o(i.cat) for cat
-    serial.o(i.syncSerialStream) refers to main.o(.data) for verbose
-    serial.o(i.syncSerialStream) refers to serial.o(.bss) for .bss
     entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry10a.o(.ARM.Collect$$$$0000000D) for __rt_final_cpp
     entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry11a.o(.ARM.Collect$$$$0000000F) for __rt_final_exit
     entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry7b.o(.ARM.Collect$$$$00000008) for _main_clock
@@ -1335,8 +1335,8 @@ Image Symbol Table
     .bss                                     0x20000058   Section       64  main.o(.bss)
     .bss                                     0x20000098   Section      120  tim.o(.bss)
     .bss                                     0x20000110   Section      128  usart.o(.bss)
-    .bss                                     0x20000190   Section    19656  uart.o(.bss)
-    .bss                                     0x20004e58   Section     1024  serial.o(.bss)
+    .bss                                     0x20000190   Section     1024  serial.o(.bss)
+    .bss                                     0x20000590   Section    19656  uart.o(.bss)
     STACK                                    0x20005258   Section     1024  startup_stm32f407xx.o(STACK)
 
     Global Symbols
@@ -1615,17 +1615,17 @@ Image Symbol Table
     htim4                                    0x200000d4   Data          60  tim.o(.bss)
     huart1                                   0x20000110   Data          64  usart.o(.bss)
     huart2                                   0x20000150   Data          64  usart.o(.bss)
-    uart1RxQueue                             0x20000190   Data          24  uart.o(.bss)
-    uart2TxQueue                             0x200001a8   Data          24  uart.o(.bss)
-    uart2RxQueue                             0x200001c0   Data          24  uart.o(.bss)
-    uart1RxBuffer                            0x200001d8   Data        1024  uart.o(.bss)
-    uart2RxBuffer                            0x200005d8   Data        1024  uart.o(.bss)
-    uart1FieldBuffers                        0x200009d8   Data         512  uart.o(.bss)
-    uart2FieldBuffers                        0x20000bd8   Data         512  uart.o(.bss)
-    uart1Fields                              0x20000dd8   Data          64  uart.o(.bss)
-    uart2Fields                              0x20000e18   Data          64  uart.o(.bss)
-    uart2TxBuffer                            0x20000e58   Data       16384  uart.o(.bss)
-    logBuffer                                0x20004e58   Data        1024  serial.o(.bss)
+    logBuffer                                0x20000190   Data        1024  serial.o(.bss)
+    uart1RxQueue                             0x20000590   Data          24  uart.o(.bss)
+    uart2TxQueue                             0x200005a8   Data          24  uart.o(.bss)
+    uart2RxQueue                             0x200005c0   Data          24  uart.o(.bss)
+    uart1RxBuffer                            0x200005d8   Data        1024  uart.o(.bss)
+    uart2RxBuffer                            0x200009d8   Data        1024  uart.o(.bss)
+    uart1FieldBuffers                        0x20000dd8   Data         512  uart.o(.bss)
+    uart2FieldBuffers                        0x20000fd8   Data         512  uart.o(.bss)
+    uart1Fields                              0x200011d8   Data          64  uart.o(.bss)
+    uart2Fields                              0x20001218   Data          64  uart.o(.bss)
+    uart2TxBuffer                            0x20001258   Data       16384  uart.o(.bss)
     __initial_sp                             0x20005658   Data           0  startup_stm32f407xx.o(STACK)
 
 
@@ -1763,24 +1763,24 @@ Memory Map of the image
     0x08001f34   0x000001b8   Code   RO         2838    i._printf_core      mc_w.l(printf3.o)
     0x080020ec   0x00000016   Code   RO         2839    i._snputc           mc_w.l(printf3.o)
     0x08002102   0x00000002   PAD
-    0x08002104   0x00000024   Code   RO         2606    i.cat               uart.o
-    0x08002128   0x00000020   Code   RO         2607    i.getField          uart.o
-    0x08002148   0x00000020   Code   RO         2676    i.initSimpleCircularQueue  serial.o
-    0x08002168   0x00000068   Code   RO         2608    i.initUarts         uart.o
+    0x08002104   0x00000024   Code   RO         2665    i.cat               uart.o
+    0x08002128   0x00000020   Code   RO         2666    i.getField          uart.o
+    0x08002148   0x00000020   Code   RO         2603    i.initSimpleCircularQueue  serial.o
+    0x08002168   0x00000068   Code   RO         2667    i.initUarts         uart.o
     0x080021d0   0x00000248   Code   RO         2382    i.main              main.o
-    0x08002418   0x00000028   Code   RO         2677    i.popSimpleCircularQueue  serial.o
-    0x08002440   0x00000026   Code   RO         2609    i.procUart          uart.o
+    0x08002418   0x00000028   Code   RO         2604    i.popSimpleCircularQueue  serial.o
+    0x08002440   0x00000026   Code   RO         2668    i.procUart          uart.o
     0x08002466   0x00000002   PAD
-    0x08002468   0x00000010   Code   RO         2610    i.processUarts      uart.o
-    0x08002478   0x0000002e   Code   RO         2678    i.pushSimpleCircularQueue  serial.o
-    0x080024a6   0x00000004   Code   RO         2679    i.queueSendString   serial.o
+    0x08002468   0x00000010   Code   RO         2669    i.processUarts      uart.o
+    0x08002478   0x0000002e   Code   RO         2605    i.pushSimpleCircularQueue  serial.o
+    0x080024a6   0x00000004   Code   RO         2606    i.queueSendString   serial.o
     0x080024aa   0x00000002   PAD
-    0x080024ac   0x00000052   Code   RO         2680    i.split             serial.o
+    0x080024ac   0x00000052   Code   RO         2607    i.split             serial.o
     0x080024fe   0x00000002   PAD
-    0x08002500   0x0000002c   Code   RO         2611    i.splitString       uart.o
-    0x0800252c   0x00000036   Code   RO         2681    i.strncmpQueue      serial.o
+    0x08002500   0x0000002c   Code   RO         2670    i.splitString       uart.o
+    0x0800252c   0x00000036   Code   RO         2608    i.strncmpQueue      serial.o
     0x08002562   0x00000002   PAD
-    0x08002564   0x00000140   Code   RO         2682    i.syncSerialStream  serial.o
+    0x08002564   0x00000140   Code   RO         2609    i.syncSerialStream  serial.o
     0x080026a4   0x00000010   Data   RO           18    .constdata          stm32f4xx_hal_rcc.o
     0x080026b4   0x00000004   Data   RO         2385    .constdata          main.o
     0x080026b8   0x00000004   Data   RO         2386    .constdata          main.o
@@ -1807,8 +1807,8 @@ Memory Map of the image
     0x20000058   0x00000040   Zero   RW         2384    .bss                main.o
     0x20000098   0x00000078   Zero   RW         2485    .bss                tim.o
     0x20000110   0x00000080   Zero   RW         2562    .bss                usart.o
-    0x20000190   0x00004cc8   Zero   RW         2613    .bss                uart.o
-    0x20004e58   0x00000400   Zero   RW         2683    .bss                serial.o
+    0x20000190   0x00000400   Zero   RW         2610    .bss                serial.o
+    0x20000590   0x00004cc8   Zero   RW         2672    .bss                uart.o
     0x20005258   0x00000400   Zero   RW         2213    STACK               startup_stm32f407xx.o
 
 
