@@ -3,7 +3,7 @@
 <title>Static Call Graph - [mcu\mcu.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image mcu\mcu.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Sun Apr 09 00:57:53 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Sun Apr 09 01:19:13 2017
 <BR><P>
 <H3>Maximum Stack Usage =        280 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -381,9 +381,9 @@ Global Symbols
 <P><STRONG><a name="[a]"></a>WWDG_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_stm32f407xx.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f407xx.o(RESET)
 </UL>
-<P><STRONG><a name="[bb]"></a>strlen</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, strlen.o(.text))
+<P><STRONG><a name="[b5]"></a>strlen</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, strlen.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strncmpQueue
-<LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;syncSerialStream
+<LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;syncSerialStream
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pushSimpleCircularQueue
 </UL>
@@ -394,7 +394,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[ba]"></a>strcpy</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, strcpy.o(.text))
+<P><STRONG><a name="[bb]"></a>strcpy</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, strcpy.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -956,10 +956,10 @@ Global Symbols
 
 <P><STRONG><a name="[ca]"></a>__1snprintf$4</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, printf4.o(i.__0snprintf$4), UNUSED)
 
-<P><STRONG><a name="[b9]"></a>__2snprintf</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, printf4.o(i.__0snprintf$4))
+<P><STRONG><a name="[ba]"></a>__2snprintf</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, printf4.o(i.__0snprintf$4))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __2snprintf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;syncSerialStream
+<BR>[Called By]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;syncSerialStream
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -982,11 +982,11 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queueSendString
 </UL>
-<BR>[Called By]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;syncSerialStream
+<BR>[Called By]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;syncSerialStream
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[b8]"></a>getField</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, uart.o(i.getField))
+<P><STRONG><a name="[b9]"></a>getField</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, uart.o(i.getField))
 <BR><BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -1004,19 +1004,19 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[5b]"></a>main</STRONG> (Thumb, 626 bytes, Stack size 136 bytes, main.o(i.main))
+<P><STRONG><a name="[5b]"></a>main</STRONG> (Thumb, 676 bytes, Stack size 136 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 280<LI>Call Chain = main &rArr; SystemClock_Config &rArr; HAL_RCC_ClockConfig &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority
 </UL>
 <BR>[Calls]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
-<LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2snprintf
-<LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcpy
+<LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2snprintf
+<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcpy
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcmp
-<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
-<LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;syncSerialStream
-<LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;splitString
-<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processUarts
+<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
+<LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;syncSerialStream
+<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;splitString
+<LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processUarts
 <LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initUarts
-<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getField
+<LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getField
 <LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cat
 <LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART2_UART_Init
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
@@ -1039,10 +1039,10 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;popSimpleCircularQueue
 </UL>
-<BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processUarts
+<BR>[Called By]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processUarts
 </UL>
 
-<P><STRONG><a name="[b5]"></a>processUarts</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, uart.o(i.processUarts))
+<P><STRONG><a name="[b6]"></a>processUarts</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, uart.o(i.processUarts))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = processUarts &rArr; procUart &rArr; popSimpleCircularQueue
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;procUart
@@ -1053,7 +1053,7 @@ Global Symbols
 <P><STRONG><a name="[ae]"></a>pushSimpleCircularQueue</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, serial.o(i.pushSimpleCircularQueue))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = pushSimpleCircularQueue
 </UL>
-<BR>[Calls]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
+<BR>[Calls]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;queueSendString
 <LI><a href="#[30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_IRQHandler
@@ -1071,10 +1071,10 @@ Global Symbols
 <P><STRONG><a name="[bf]"></a>split</STRONG> (Thumb, 84 bytes, Stack size 32 bytes, serial.o(i.split))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = split
 </UL>
-<BR>[Called By]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;splitString
+<BR>[Called By]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;splitString
 </UL>
 
-<P><STRONG><a name="[b7]"></a>splitString</STRONG> (Thumb, 38 bytes, Stack size 16 bytes, uart.o(i.splitString))
+<P><STRONG><a name="[b8]"></a>splitString</STRONG> (Thumb, 38 bytes, Stack size 16 bytes, uart.o(i.splitString))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = splitString &rArr; split
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;split
@@ -1085,16 +1085,16 @@ Global Symbols
 <P><STRONG><a name="[c0]"></a>strncmpQueue</STRONG> (Thumb, 54 bytes, Stack size 16 bytes, serial.o(i.strncmpQueue))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = strncmpQueue
 </UL>
-<BR>[Calls]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
+<BR>[Calls]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
 </UL>
-<BR>[Called By]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;syncSerialStream
+<BR>[Called By]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;syncSerialStream
 </UL>
 
-<P><STRONG><a name="[b6]"></a>syncSerialStream</STRONG> (Thumb, 252 bytes, Stack size 56 bytes, serial.o(i.syncSerialStream))
+<P><STRONG><a name="[b7]"></a>syncSerialStream</STRONG> (Thumb, 252 bytes, Stack size 56 bytes, serial.o(i.syncSerialStream))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = syncSerialStream &rArr; __2snprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2snprintf
-<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
+<BR>[Calls]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2snprintf
+<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
 <LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strncmpQueue
 <LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cat
 </UL>

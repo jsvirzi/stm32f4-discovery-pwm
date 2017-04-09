@@ -160,6 +160,7 @@ int main(void)
 	const char *header2 = "$AT";
 	const char *trailer2 = "*";
 	int start, final;
+	int lengthTrailer1 = strlen(trailer1), lengthTrailer2 = strlen(trailer2);
 
   /* USER CODE END 2 */
 
@@ -193,6 +194,7 @@ int main(void)
 		status = syncSerialStream(&uart2RxQueue, header2, trailer2, &start, &final);
 		if(status == 0) {
 			char str2[64];
+			final = (final - lengthTrailer2) & uart2RxQueue.mask; /* remove trailer from payload */
 			int j, k = splitString(&uart2RxQueue, start, final);
 			if(verbose) {
 				for(j=0;j<k;++j) {
