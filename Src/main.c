@@ -219,15 +219,18 @@ int main(void)
 				snprintf(str2, sizeof(str2), "verbose = %d\n", verbose);
 				cat(str2);
 			} else if(strcmp(getField(2, 0), "$ATGPSTIME") == 0) {
-				snprintf(str2, sizeof(str2), "current gps time = %lu\n", gpsTime);
+				snprintf(str2, sizeof(str2), "$GPSTIME,%u*\n", gpsTime);
 				cat(str2);
 			} else if(strcmp(getField(2, 0), "$ATSTARTF") == 0) {
 				frameStartTime = atoi(getField(2, 1));
-				snprintf(str2, sizeof(str2), "frames starting at %lu\n", frameStartTime);
+				snprintf(str2, sizeof(str2), "frames starting at %u\n", frameStartTime);
 				cat(str2);
 			} else if(strcmp(getField(2, 0), "$ATSTOPF") == 0) {
 				frameStopTime = atoi(getField(2, 1));
-				snprintf(str2, sizeof(str2), "frames stopping at %lu\n", frameStopTime);
+				snprintf(str2, sizeof(str2), "frames stopping at %u\n", frameStopTime);
+				cat(str2);
+			} else if(strcmp(getField(2, 0), "$ATFRAMES") == 0) {
+				snprintf(str2, sizeof(str2), "$FRAMES,%u*\n", frameCounter);
 				cat(str2);
 			}
 		}
