@@ -175,7 +175,7 @@ int main(void)
 		if(status == 0) {
 			char str1[64], tmpStr[32];
 			int j, k = splitString(&uart1RxQueue, start, final);
-			if(verbose) {
+			if(verbose >= 2) {
 				for(j=0;j<k;++j) {
 					snprintf(str1, sizeof(str1), "index = %d. field = [%s]\n", j, getField(1, j));
 					cat(str1);

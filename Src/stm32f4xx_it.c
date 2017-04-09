@@ -240,15 +240,16 @@ void EXTI0_IRQHandler(void)
 		TIM4->CNT = 0;
 
 		/* should we be generating frames? */
+		uint32_t effectiveGpsTime = gpsTime + 1; /* gps time does not update until later in cycle */
 		if(frameStartTime != 0) {
-			if(gpsTime > frameStartTime) {
+			if(effectiveGpsTime >= frameStartTime) {
 				localEnableFrames = 1;
 			}
 		}
 		
 		/* should we stop generating frames? */
 		if(frameStopTime != 0) {
-			if(gpsTime > frameStopTime) {
+			if(effectiveGpsTime >= frameStopTime) {
 				localEnableFrames = 0;
 			}
 		}
