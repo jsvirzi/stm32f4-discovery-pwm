@@ -71,8 +71,11 @@ uint32_t frameCounter = 0; /* number of outgoing frame pulses */
 uint32_t pulseCounter = 0; /* number of incoming gps pulses */
 int frameRate = 20; /* 20 Hz frame rate out */
 volatile uint32_t clockTicks = 0;
-volatile int enableFrames = 1;
+volatile int globalEnableFrames = 0;
 volatile int generateFrames = 0;
+uint32_t gpsTime = 0;
+uint32_t frameStartTime = 0;
+uint32_t frameStopTime = 0;
 
 int compareFramesToPulses() {
 	uint32_t expectedFrames = pulseCounter * frameRate;
@@ -81,9 +84,7 @@ int compareFramesToPulses() {
 	else return 0;
 }
 
-// uint32_t startTicks, currentTicks;
 unsigned long tim2Counter = 0, lastTim2Counter = 0;
-// unsigned long int *genericPointer = 0;
 
 /* the next three constants must be consistent. 2^3 = 8. mask = 8-1 */
 const int ppsCalibrationTicksSize = 16;
@@ -94,7 +95,6 @@ unsigned long int ppsCalibrationTicks[ppsCalibrationTicksSize];
 unsigned int ppsCalibrationTicksHead = 0;
 unsigned int ppsCalibrationTicksPoints = 0;
 unsigned long int tickAcc;
-// unsigned long tmpPeriod;
 
 unsigned int totalCalibrationTicks() {
 	int i;
@@ -105,27 +105,8 @@ unsigned int totalCalibrationTicks() {
 	return tickAcc;
 }
 
-// void pushCalibrationTick(unsigned long int deltaTime) {
-// 	ppsCalibrationTicks[ppsCalibrationTicksHead] = deltaTime;
-// 	ppsCalibrationTicksHead = (ppsCalibrationTicksHead + 1) & ppsCalibrationTicksSizeMask;
-// }
-
-// const int defaultPwmPeriod = 20000;
-// const int updateRate = 50;
 const int defaultPwmPeriod = 50000;
 const int updateRate = 20;
-// const int pwmArrSize = 2 * updateRate;
-// unsigned int pwmArr[pwmArrSize];
-// unsigned int *pwmArrPing = &pwmArr[0], *pwmArrPong = &pwmArr[updateRate];
-// int pwmArrPingPongPhase = 0, pwmArrPhase = 0;
-
-// void updatePwmArrPeriod() {
-//	uint32_t expectedFrames = pulseCounter * frameRate;
-//	uint32_t arr = TIM4->ARR;
-//	if(expectedFrames > frameCounter) --arr;
-//	else if(expectedFrames < frameCounter) ++arr;
-//	TIM4->ARR = arr;
-// }
 
 /* USER CODE END 0 */
 
@@ -154,11 +135,6 @@ int main(void)
   MX_USART1_UART_Init();
 
   /* USER CODE BEGIN 2 */
-	
-//	int i;
-//	for(i=0;i<pwmArrSize;++i) {
-//		pwmArr[i] = defaultPwmPeriod;
-//	}
 	
 	TIM2->CR1 |= 0x1;
 	TIM2->ARR = 0xFFFFFFFF;
@@ -197,32 +173,60 @@ int main(void)
 		processUarts();
 		int status = syncSerialStream(&uart1RxQueue, header1, trailer1, &start, &final);
 		if(status == 0) {
-			splitString(&uart1RxQueue, start, final);
+			char str1[64], tmpStr[32];
+			int j, k = splitString(&uart1RxQueue, start, final);
+			if(verbose) {
+				for(j=0;j<k;++j) {
+					snprintf(str1, sizeof(str1), "index = %d. field = [%s]\n", j, getField(1, j));
+					cat(str1);
+				}
+			}
+			strcpy(tmpStr, getField(1, 1));
+			j = strlen(tmpStr) - 3;
+			tmpStr[j] = 0;
+			gpsTime = atoi(tmpStr);
+			if(verbose) {
+				snprintf(str1, sizeof(str1), "gps time = %d from [%s]\n", gpsTime, tmpStr);
+				cat(str1);
+			}
 		}
 		status = syncSerialStream(&uart2RxQueue, header2, trailer2, &start, &final);
 		if(status == 0) {
-			char str[32];
+			char str2[64];
 			int j, k = splitString(&uart2RxQueue, start, final);
-			for(j=0;j<k;++j) {
-				snprintf(str, sizeof(str), "index = %d. field = [%s]\n", j, getField(2, j));
-				cat(str);
+			if(verbose) {
+				for(j=0;j<k;++j) {
+					snprintf(str2, sizeof(str2), "index = %d. field = [%s]\n", j, getField(2, j));
+					cat(str2);
+				}
 			}
 			if(strcmp(getField(2, 0), "$ATENAF") == 0) {
-				enableFrames = 1;
-				snprintf(str, sizeof(str), "enabling frames\n");
-				cat(str);
+				globalEnableFrames = 1;
+				snprintf(str2, sizeof(str2), "enabling frames\n");
+				cat(str2);
 			} else if(strcmp(getField(2, 0), "$ATDISF") == 0) {
-				enableFrames = 0;
-				snprintf(str, sizeof(str), "disabling frames\n");
-				cat(str);
+				globalEnableFrames = 0;
+				snprintf(str2, sizeof(str2), "disabling frames\n");
+				cat(str2);
 			} else if(strcmp(getField(2, 0), "$ATGENF") == 0) {
 				generateFrames = atoi(getField(2, 1));
-				snprintf(str, sizeof(str), "generating %d frames\n", generateFrames);
-				cat(str);
+				snprintf(str2, sizeof(str2), "generating %d frames\n", generateFrames);
+				cat(str2);
 			} else if(strcmp(getField(2, 0), "$ATVERBOSE") == 0) {
 				verbose = atoi(getField(2, 1));
-				snprintf(str, sizeof(str), "verbose = %d\n", verbose);
-				cat(str);
+				snprintf(str2, sizeof(str2), "verbose = %d\n", verbose);
+				cat(str2);
+			} else if(strcmp(getField(2, 0), "$ATGPSTIME") == 0) {
+				snprintf(str2, sizeof(str2), "current gps time = %lu\n", gpsTime);
+				cat(str2);
+			} else if(strcmp(getField(2, 0), "$ATSTARTF") == 0) {
+				frameStartTime = atoi(getField(2, 1));
+				snprintf(str2, sizeof(str2), "frames starting at %lu\n", frameStartTime);
+				cat(str2);
+			} else if(strcmp(getField(2, 0), "$ATSTOPF") == 0) {
+				frameStopTime = atoi(getField(2, 1));
+				snprintf(str2, sizeof(str2), "frames stopping at %lu\n", frameStopTime);
+				cat(str2);
 			}
 		}
   }

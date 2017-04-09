@@ -66,7 +66,7 @@ int split(SimpleCircularQueue *queue, int first, int final, char **fields, int m
 		pos = (pos + 1) & queue->mask;
 	}
 	queue->tail = final;
-	return fieldIndex;
+	return fieldIndex + 1;
 }
 
 /* functions like strncmp except the source string is a queue. 0 = successful comparison */

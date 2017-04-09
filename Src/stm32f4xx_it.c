@@ -44,7 +44,8 @@
 extern SimpleCircularQueue uart1Queue;
 extern SimpleCircularQueue uart2Queue;
 
-extern int enableFrames;
+extern int globalEnableFrames;
+int localEnableFrames = 0;
 extern int generateFrames;
 extern int frameCounter;
 extern int pulseCounter;
@@ -56,10 +57,7 @@ extern const int ppsCalibrationTicksSize;
 extern const int ppsCalibrationTicksSizeMask;
 extern const int ppsCalibrationTicksSizeLog;
 void pushCalibrationTick(unsigned long int deltaTime);
-// void updatePwmArrPeriods(void);
-// void updatePwmArrPeriod(void);
 int ppsOutCounter = 0;
-// extern unsigned long int *genericPointer;
 extern int frameRate;
 uint32_t expectedFrames;
 uint32_t tmpFrameCounter;
@@ -69,6 +67,9 @@ int loopPacerCounter = 0;
 int loopPacerDivisor = 1;
 int started = 0;
 extern uint32_t clockTicks;
+extern uint32_t frameStartTime;
+extern uint32_t frameStopTime;
+extern uint32_t gpsTime;
 
 /* USER CODE END 0 */
 
@@ -238,6 +239,32 @@ void EXTI0_IRQHandler(void)
 		
 		TIM4->CNT = 0;
 
+		/* should we be generating frames? */
+		if(frameStartTime != 0) {
+			if(gpsTime > frameStartTime) {
+				localEnableFrames = 1;
+			}
+		}
+		
+		/* should we stop generating frames? */
+		if(frameStopTime != 0) {
+			if(gpsTime > frameStopTime) {
+				localEnableFrames = 0;
+			}
+		}
+		
+		uint32_t regVal = TIM4->CR1;
+		if(globalEnableFrames || localEnableFrames || generateFrames) {
+			if(generateFrames > 0) --generateFrames;
+			if((regVal & 0x81) != 0x81) {
+				TIM4->CR1 |= 0x81;
+			}
+		} else {
+			if((regVal & 0x81) != 0) {
+				TIM4->CR1 &= ~0x81;
+			}
+		}
+
 		GPIOD->BSRR = (1 << 13); /* set PPS high */
 		if(ppsOutCounter == 0) ppsOutCounter = 10;
 		
@@ -259,19 +286,7 @@ void EXTI0_IRQHandler(void)
 			arr = acc >> ppsCalibrationTicksSizeLog;			
 			TIM4->ARR = arr; /* TODO am I reaching here? */
 		}
-		
-		uint32_t regVal = TIM4->CR1;
-		if(enableFrames || generateFrames) {
-			if(generateFrames > 0) --generateFrames;
-			if((regVal & 0x81) != 0x81) {
-				TIM4->CR1 |= 0x81;
-			}
-		} else {
-			if((regVal & 0x81) != 0) {
-				TIM4->CR1 &= ~0x81;
-			}
-		}
-			
+
 		tmpFrameCounter = frameCounter; /* keep a snapshot because frameCounter changes externally */
 
 		/*
