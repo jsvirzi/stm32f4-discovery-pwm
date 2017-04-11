@@ -1310,22 +1310,22 @@ Image Symbol Table
     i.initSimpleCircularQueue                0x080021a0   Section        0  serial.o(i.initSimpleCircularQueue)
     i.initUarts                              0x080021c0   Section        0  uart.o(i.initUarts)
     i.main                                   0x08002228   Section        0  main.o(i.main)
-    i.popSimpleCircularQueue                 0x0800263c   Section        0  serial.o(i.popSimpleCircularQueue)
-    i.procUart                               0x08002664   Section        0  uart.o(i.procUart)
-    i.processUarts                           0x0800268c   Section        0  uart.o(i.processUarts)
-    i.pushSimpleCircularQueue                0x0800269c   Section        0  serial.o(i.pushSimpleCircularQueue)
-    i.queueSendString                        0x080026ca   Section        0  serial.o(i.queueSendString)
-    i.split                                  0x080026d0   Section        0  serial.o(i.split)
-    i.splitString                            0x08002724   Section        0  uart.o(i.splitString)
-    i.strncmpQueue                           0x08002750   Section        0  serial.o(i.strncmpQueue)
-    i.syncSerialStream                       0x08002788   Section        0  serial.o(i.syncSerialStream)
-    .constdata                               0x080028c8   Section       16  stm32f4xx_hal_rcc.o(.constdata)
-    .constdata                               0x080028d8   Section        4  main.o(.constdata)
-    .constdata                               0x080028dc   Section        4  main.o(.constdata)
-    .constdata                               0x080028e0   Section        4  main.o(.constdata)
-    .constdata                               0x080028e4   Section      129  ctype_o.o(.constdata)
-    .constdata                               0x08002968   Section        4  ctype_o.o(.constdata)
-    table                                    0x08002968   Data           4  ctype_o.o(.constdata)
+    i.popSimpleCircularQueue                 0x08002630   Section        0  serial.o(i.popSimpleCircularQueue)
+    i.procUart                               0x08002658   Section        0  uart.o(i.procUart)
+    i.processUarts                           0x08002680   Section        0  uart.o(i.processUarts)
+    i.pushSimpleCircularQueue                0x08002690   Section        0  serial.o(i.pushSimpleCircularQueue)
+    i.queueSendString                        0x080026be   Section        0  serial.o(i.queueSendString)
+    i.split                                  0x080026c4   Section        0  serial.o(i.split)
+    i.splitString                            0x08002718   Section        0  uart.o(i.splitString)
+    i.strncmpQueue                           0x08002744   Section        0  serial.o(i.strncmpQueue)
+    i.syncSerialStream                       0x0800277c   Section        0  serial.o(i.syncSerialStream)
+    .constdata                               0x080028bc   Section       16  stm32f4xx_hal_rcc.o(.constdata)
+    .constdata                               0x080028cc   Section        4  main.o(.constdata)
+    .constdata                               0x080028d0   Section        4  main.o(.constdata)
+    .constdata                               0x080028d4   Section        4  main.o(.constdata)
+    .constdata                               0x080028d8   Section      129  ctype_o.o(.constdata)
+    .constdata                               0x0800295c   Section        4  ctype_o.o(.constdata)
+    table                                    0x0800295c   Data           4  ctype_o.o(.constdata)
     .data                                    0x20000000   Section        4  stm32f4xx_hal.o(.data)
     .data                                    0x20000004   Section        4  system_stm32f4xx.o(.data)
     .data                                    0x20000008   Section       36  stm32f4xx_it.o(.data)
@@ -1577,23 +1577,23 @@ Image Symbol Table
     getField                                 0x08002181   Thumb Code    26  uart.o(i.getField)
     initSimpleCircularQueue                  0x080021a1   Thumb Code    32  serial.o(i.initSimpleCircularQueue)
     initUarts                                0x080021c1   Thumb Code    88  uart.o(i.initUarts)
-    main                                     0x08002229   Thumb Code   702  main.o(i.main)
-    popSimpleCircularQueue                   0x0800263d   Thumb Code    40  serial.o(i.popSimpleCircularQueue)
-    procUart                                 0x08002665   Thumb Code    38  uart.o(i.procUart)
-    processUarts                             0x0800268d   Thumb Code     8  uart.o(i.processUarts)
-    pushSimpleCircularQueue                  0x0800269d   Thumb Code    46  serial.o(i.pushSimpleCircularQueue)
-    queueSendString                          0x080026cb   Thumb Code     4  serial.o(i.queueSendString)
-    split                                    0x080026d1   Thumb Code    84  serial.o(i.split)
-    splitString                              0x08002725   Thumb Code    38  uart.o(i.splitString)
-    strncmpQueue                             0x08002751   Thumb Code    54  serial.o(i.strncmpQueue)
-    syncSerialStream                         0x08002789   Thumb Code   252  serial.o(i.syncSerialStream)
-    APBAHBPrescTable                         0x080028c8   Data          16  stm32f4xx_hal_rcc.o(.constdata)
-    ppsCalibrationTicksSize                  0x080028d8   Data           4  main.o(.constdata)
-    ppsCalibrationTicksSizeMask              0x080028dc   Data           4  main.o(.constdata)
-    ppsCalibrationTicksSizeLog               0x080028e0   Data           4  main.o(.constdata)
-    __ctype_table                            0x080028e4   Data         129  ctype_o.o(.constdata)
-    Region$$Table$$Base                      0x0800296c   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x0800298c   Number         0  anon$$obj.o(Region$$Table)
+    main                                     0x08002229   Thumb Code   690  main.o(i.main)
+    popSimpleCircularQueue                   0x08002631   Thumb Code    40  serial.o(i.popSimpleCircularQueue)
+    procUart                                 0x08002659   Thumb Code    38  uart.o(i.procUart)
+    processUarts                             0x08002681   Thumb Code     8  uart.o(i.processUarts)
+    pushSimpleCircularQueue                  0x08002691   Thumb Code    46  serial.o(i.pushSimpleCircularQueue)
+    queueSendString                          0x080026bf   Thumb Code     4  serial.o(i.queueSendString)
+    split                                    0x080026c5   Thumb Code    84  serial.o(i.split)
+    splitString                              0x08002719   Thumb Code    38  uart.o(i.splitString)
+    strncmpQueue                             0x08002745   Thumb Code    54  serial.o(i.strncmpQueue)
+    syncSerialStream                         0x0800277d   Thumb Code   252  serial.o(i.syncSerialStream)
+    APBAHBPrescTable                         0x080028bc   Data          16  stm32f4xx_hal_rcc.o(.constdata)
+    ppsCalibrationTicksSize                  0x080028cc   Data           4  main.o(.constdata)
+    ppsCalibrationTicksSizeMask              0x080028d0   Data           4  main.o(.constdata)
+    ppsCalibrationTicksSizeLog               0x080028d4   Data           4  main.o(.constdata)
+    __ctype_table                            0x080028d8   Data         129  ctype_o.o(.constdata)
+    Region$$Table$$Base                      0x08002960   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x08002980   Number         0  anon$$obj.o(Region$$Table)
     uwTick                                   0x20000000   Data           4  stm32f4xx_hal.o(.data)
     SystemCoreClock                          0x20000004   Data           4  system_stm32f4xx.o(.data)
     localEnableFrames                        0x20000008   Data           4  stm32f4xx_it.o(.data)
@@ -1645,9 +1645,9 @@ Memory Map of the image
 
   Image Entry point : 0x08000189
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x000029f4, Max: 0x00100000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x000029e8, Max: 0x00100000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Base: 0x08000000, Size: 0x0000298c, Max: 0x00100000, ABSOLUTE)
+    Execution Region ER_IROM1 (Base: 0x08000000, Size: 0x00002980, Max: 0x00100000, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -1778,27 +1778,27 @@ Memory Map of the image
     0x08002180   0x00000020   Code   RO         2666    i.getField          uart.o
     0x080021a0   0x00000020   Code   RO         2603    i.initSimpleCircularQueue  serial.o
     0x080021c0   0x00000068   Code   RO         2667    i.initUarts         uart.o
-    0x08002228   0x00000414   Code   RO         2382    i.main              main.o
-    0x0800263c   0x00000028   Code   RO         2604    i.popSimpleCircularQueue  serial.o
-    0x08002664   0x00000026   Code   RO         2668    i.procUart          uart.o
-    0x0800268a   0x00000002   PAD
-    0x0800268c   0x00000010   Code   RO         2669    i.processUarts      uart.o
-    0x0800269c   0x0000002e   Code   RO         2605    i.pushSimpleCircularQueue  serial.o
-    0x080026ca   0x00000004   Code   RO         2606    i.queueSendString   serial.o
-    0x080026ce   0x00000002   PAD
-    0x080026d0   0x00000054   Code   RO         2607    i.split             serial.o
-    0x08002724   0x0000002c   Code   RO         2670    i.splitString       uart.o
-    0x08002750   0x00000036   Code   RO         2608    i.strncmpQueue      serial.o
-    0x08002786   0x00000002   PAD
-    0x08002788   0x00000140   Code   RO         2609    i.syncSerialStream  serial.o
-    0x080028c8   0x00000010   Data   RO           18    .constdata          stm32f4xx_hal_rcc.o
-    0x080028d8   0x00000004   Data   RO         2385    .constdata          main.o
-    0x080028dc   0x00000004   Data   RO         2386    .constdata          main.o
-    0x080028e0   0x00000004   Data   RO         2387    .constdata          main.o
-    0x080028e4   0x00000081   Data   RO         3058    .constdata          mc_w.l(ctype_o.o)
-    0x08002965   0x00000003   PAD
-    0x08002968   0x00000004   Data   RO         3059    .constdata          mc_w.l(ctype_o.o)
-    0x0800296c   0x00000020   Data   RO         3092    Region$$Table       anon$$obj.o
+    0x08002228   0x00000408   Code   RO         2382    i.main              main.o
+    0x08002630   0x00000028   Code   RO         2604    i.popSimpleCircularQueue  serial.o
+    0x08002658   0x00000026   Code   RO         2668    i.procUart          uart.o
+    0x0800267e   0x00000002   PAD
+    0x08002680   0x00000010   Code   RO         2669    i.processUarts      uart.o
+    0x08002690   0x0000002e   Code   RO         2605    i.pushSimpleCircularQueue  serial.o
+    0x080026be   0x00000004   Code   RO         2606    i.queueSendString   serial.o
+    0x080026c2   0x00000002   PAD
+    0x080026c4   0x00000054   Code   RO         2607    i.split             serial.o
+    0x08002718   0x0000002c   Code   RO         2670    i.splitString       uart.o
+    0x08002744   0x00000036   Code   RO         2608    i.strncmpQueue      serial.o
+    0x0800277a   0x00000002   PAD
+    0x0800277c   0x00000140   Code   RO         2609    i.syncSerialStream  serial.o
+    0x080028bc   0x00000010   Data   RO           18    .constdata          stm32f4xx_hal_rcc.o
+    0x080028cc   0x00000004   Data   RO         2385    .constdata          main.o
+    0x080028d0   0x00000004   Data   RO         2386    .constdata          main.o
+    0x080028d4   0x00000004   Data   RO         2387    .constdata          main.o
+    0x080028d8   0x00000081   Data   RO         3058    .constdata          mc_w.l(ctype_o.o)
+    0x08002959   0x00000003   PAD
+    0x0800295c   0x00000004   Data   RO         3059    .constdata          mc_w.l(ctype_o.o)
+    0x08002960   0x00000020   Data   RO         3092    Region$$Table       anon$$obj.o
 
 
     Execution Region RW_IRAM1 (Base: 0x20000000, Size: 0x00005668, Max: 0x00020000, ABSOLUTE)
@@ -1830,7 +1830,7 @@ Image component sizes
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
        200         22          0          0          0       1007   gpio.o
-      1198        350         12         56         64       4302   main.o
+      1186        350         12         56         64       4294   main.o
        580         68          0          0       1024       6439   serial.o
         36          8        392          0       1024        808   startup_stm32f407xx.o
        120         22          0          4          0       3651   stm32f4xx_hal.o
@@ -1849,7 +1849,7 @@ Image component sizes
        272         38          0          0        128       2331   usart.o
 
     ----------------------------------------------------------------------
-      9002        976        452        100      22016     416926   Object Totals
+      8990        976        452        100      22016     416918   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         26          0          0          0          0          0   (incl. Padding)
 
@@ -1899,15 +1899,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     10048       1008        588        104      22016     408838   Grand Totals
-     10048       1008        588        104      22016     408838   ELF Image Totals
-     10048       1008        588        104          0          0   ROM Totals
+     10036       1008        588        104      22016     408830   Grand Totals
+     10036       1008        588        104      22016     408830   ELF Image Totals
+     10036       1008        588        104          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                10636 (  10.39kB)
+    Total RO  Size (Code + RO Data)                10624 (  10.38kB)
     Total RW  Size (RW Data + ZI Data)             22120 (  21.60kB)
-    Total ROM Size (Code + RO Data + RW Data)      10740 (  10.49kB)
+    Total ROM Size (Code + RO Data + RW Data)      10728 (  10.48kB)
 
 ==============================================================================
 

@@ -65,7 +65,7 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN 0 */
 
-int verbose = 1;
+int verbose = 0;
 int frameCountingStarted = 0; /* set when we have started counting frame pulses */
 uint32_t frameCounter = 0; /* number of outgoing frame pulses */
 uint32_t pulseCounter = 0; /* number of incoming gps pulses */
@@ -139,7 +139,7 @@ int main(void)
 	TIM2->CR1 |= 0x1;
 	TIM2->ARR = 0xFFFFFFFF;
 	
-	TIM4->CR1 |= 0x81;
+//	TIM4->CR1 |= 0x81;
 	TIM4->CCER &= ~0xF;
 	TIM4->CCER |= 0x1;
 	TIM4->DIER |= 0x1;
