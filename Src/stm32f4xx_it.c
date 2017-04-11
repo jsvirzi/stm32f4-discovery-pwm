@@ -244,6 +244,7 @@ void EXTI0_IRQHandler(void)
 		if(frameStartTime != 0) {
 			if(effectiveGpsTime >= frameStartTime) {
 				localEnableFrames = 1;
+				frameStartTime = 0;
 			}
 		}
 		
@@ -251,6 +252,7 @@ void EXTI0_IRQHandler(void)
 		if(frameStopTime != 0) {
 			if(effectiveGpsTime >= frameStopTime) {
 				localEnableFrames = 0;
+				frameStopTime = 0;
 			}
 		}
 		
