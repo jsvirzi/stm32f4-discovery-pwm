@@ -41,9 +41,11 @@
 #include "stdio.h"
 #include "string.h"
 #include "stdlib.h"
+#include "time.h"
 
 #include "serial.h"
 #include "uart.h"
+#include "gps.h"
 
 /* USER CODE END Includes */
 
@@ -76,6 +78,8 @@ volatile int generateFrames = 0;
 uint32_t gpsTime = 0;
 uint32_t frameStartTime = 0;
 uint32_t frameStopTime = 0;
+char gpsDateString[32];
+char gpsTimeString[32];
 
 int compareFramesToPulses() {
 	uint32_t expectedFrames = pulseCounter * frameRate;
@@ -174,7 +178,7 @@ int main(void)
 		processUarts();
 		int status = syncSerialStream(&uart1RxQueue, header1, trailer1, &start, &final);
 		if(status == 0) {
-			char str1[64], tmpStr[32];
+			char str1[64];
 			int j, k = splitString(&uart1RxQueue, start, final);
 			if(verbose >= 2) {
 				for(j=0;j<k;++j) {
@@ -182,18 +186,17 @@ int main(void)
 					cat(str1);
 				}
 			}
-			strcpy(tmpStr, getField(1, 1));
-			j = strlen(tmpStr) - 3;
-			tmpStr[j] = 0;
-			gpsTime = atoi(tmpStr);
+			strcpy(gpsTimeString, getField(1, 1));
+			strcpy(gpsDateString, getField(1, 9));
+			gpsTime = UtcTimeFromGprmcDateTimeStrings(gpsDateString, gpsTimeString);
 			if(verbose) {
-				snprintf(str1, sizeof(str1), "gps time = %d from [%s]\n", gpsTime, tmpStr);
+				snprintf(str1, sizeof(str1), "gps time = %d from [%s:%s]\n", gpsTime, gpsDateString, gpsTimeString);
 				cat(str1);
 			}
 		}
 		status = syncSerialStream(&uart2RxQueue, header2, trailer2, &start, &final);
 		if(status == 0) {
-			char str2[64];
+			char str2[128];
 			final = (final - lengthTrailer2) & uart2RxQueue.mask; /* remove trailer from payload */
 			int j, k = splitString(&uart2RxQueue, start, final);
 			if(verbose) {
@@ -219,7 +222,7 @@ int main(void)
 				snprintf(str2, sizeof(str2), "verbose = %d\n", verbose);
 				cat(str2);
 			} else if(strcmp(getField(2, 0), "$ATGPSTIME") == 0) {
-				snprintf(str2, sizeof(str2), "$GPSTIME,%u*\n", gpsTime);
+				snprintf(str2, sizeof(str2), "$GPSTIME,%u,%s,%s*\n", gpsTime, gpsDateString, gpsTimeString);
 				cat(str2);
 			} else if(strcmp(getField(2, 0), "$ATSTARTF") == 0) {
 				frameStartTime = atoi(getField(2, 1));
@@ -235,6 +238,7 @@ int main(void)
 			}
 		}
   }
+  
   /* USER CODE END 3 */
 
 }
