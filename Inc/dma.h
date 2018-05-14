@@ -1,7 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : mxconstants.h
-  * Description        : This file contains the common defines of the application
+  * File Name          : dma.h
+  * Description        : This file contains all the function prototypes for
+  *                      the dma.c file
   ******************************************************************************
   *
   * COPYRIGHT(c) 2018 STMicroelectronics
@@ -31,59 +32,41 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __MXCONSTANT_H
-#define __MXCONSTANT_H
-  /* Includes ------------------------------------------------------------------*/
+#ifndef __dma_H
+#define __dma_H
+
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
+/* Includes ------------------------------------------------------------------*/
+#include "stm32f4xx_hal.h"
+
+/* DMA memory to memory transfer handles -------------------------------------*/
+extern void Error_Handler(void);
 
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
 
-/* Private define ------------------------------------------------------------*/
-
-#define FRAME_PULSE_Pin GPIO_PIN_1
-#define FRAME_PULSE_GPIO_Port GPIOA
-#define PPS_PULSE_Pin GPIO_PIN_2
-#define PPS_PULSE_GPIO_Port GPIOA
-#define RxFromHost_Pin GPIO_PIN_3
-#define RxFromHost_GPIO_Port GPIOA
-#define RED_Pin GPIO_PIN_0
-#define RED_GPIO_Port GPIOB
-#define GREEN_Pin GPIO_PIN_1
-#define GREEN_GPIO_Port GPIOB
-#define PPS_OUT_Pin GPIO_PIN_13
-#define PPS_OUT_GPIO_Port GPIOD
-#define GOOD_PPS_IN_Pin GPIO_PIN_14
-#define GOOD_PPS_IN_GPIO_Port GPIOD
-#define LED_Pin GPIO_PIN_15
-#define LED_GPIO_Port GPIOD
-#define CONOUT_Pin GPIO_PIN_6
-#define CONOUT_GPIO_Port GPIOC
-#define CONIN_Pin GPIO_PIN_7
-#define CONIN_GPIO_Port GPIOC
-#define GPS_NMEA_RxD_Pin GPIO_PIN_10
-#define GPS_NMEA_RxD_GPIO_Port GPIOA
-#define TxToHost_Pin GPIO_PIN_5
-#define TxToHost_GPIO_Port GPIOD
-#define GPSOFF_Pin GPIO_PIN_4
-#define GPSOFF_GPIO_Port GPIOB
-#define LIDOFF_Pin GPIO_PIN_5
-#define LIDOFF_GPIO_Port GPIOB
-#define CAMOFF_Pin GPIO_PIN_6
-#define CAMOFF_GPIO_Port GPIOB
-#define PPS_IN_Pin GPIO_PIN_0
-#define PPS_IN_GPIO_Port GPIOE
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
-/**
-  * @}
-  */ 
+void MX_DMA_Init(void);
+
+/* USER CODE BEGIN Prototypes */
+
+/* USER CODE END Prototypes */
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* __dma_H */
 
 /**
   * @}
-*/ 
+  */
 
-#endif /* __MXCONSTANT_H */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

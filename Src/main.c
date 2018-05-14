@@ -4,7 +4,7 @@
   * Description        : Main program body
   ******************************************************************************
   *
-  * COPYRIGHT(c) 2017 STMicroelectronics
+  * COPYRIGHT(c) 2018 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -32,6 +32,7 @@
   */
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
+#include "dma.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -80,6 +81,19 @@ uint32_t frameStartTime = 0;
 uint32_t frameStopTime = 0;
 char gpsDateString[32];
 char gpsTimeString[32];
+extern int started;
+
+void GpsPower(int flag) {
+	GPIOB->BSRR = (1 << (4 + 16 * flag));
+}
+
+void LidarPower(int flag) {
+	GPIOB->BSRR = (1 << (5 + 16 * flag));
+}
+
+void CameraPower(int flag) {
+	GPIOB->BSRR = (1 << (6 + 16 * flag));
+}
 
 int compareFramesToPulses() {
 	uint32_t expectedFrames = pulseCounter * frameRate;
@@ -133,10 +147,12 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_TIM2_Init();
   MX_TIM4_Init();
   MX_USART2_UART_Init();
   MX_USART1_UART_Init();
+  MX_USART6_UART_Init();
 
   /* USER CODE BEGIN 2 */
 	
@@ -157,7 +173,7 @@ int main(void)
 	value |= uartRxNEIE;
 	huart2.Instance->CR1 = value;
 	
-	huart2.Instance->DR = 'A';
+	// huart2.Instance->DR = 'A';
 	
 	const char *header1 = "$GPRMC";
 	const char *trailer1 = "*";
@@ -166,15 +182,39 @@ int main(void)
 	int start, final;
 	int lengthTrailer1 = strlen(trailer1), lengthTrailer2 = strlen(trailer2);
 
+	displayOn(1); /* turn ON display */
+
+	GPIOD->BSRR = 0x80000000;
+	GPIOB->BSRR = 0x00030000;
+	cat("Nauto(2018) Rig Firmware V1.01\n");
+	GPIOD->BSRR = 0x00008000;
+	GPIOB->BSRR = 0x00000003;
+
+	// display("\x0c\x80Nauto(2018)\x94Rig FW Rev V1.01");
+/* essentially acts as a clear display to send 20 bytes per line */
+	display(0, "NAUTO(2018) MAPPING ", 20);
+	display(1, "H/W V1 F/W V1.01    ", 20);
+	display(2, "i love my elenitas!!", 20);
+	// huart1.Instance->DR = 'E';
+
+	uint32_t previousGpsTime = 0;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
   while (1)
   {
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
+		if (previousGpsTime != gpsTime) {
+			previousGpsTime = gpsTime;
+			char str[20];
+			int n_bytes = snprintf(str, sizeof(str), "T=%8.8u", gpsTime);
+			display(3, str, n_bytes);
+		}
 		processUarts();
 		int status = syncSerialStream(&uart1RxQueue, header1, trailer1, &start, &final);
 		if(status == 0) {
@@ -208,10 +248,14 @@ int main(void)
 			if(strcmp(getField(2, 0), "$ATENAF") == 0) {
 				globalEnableFrames = 1;
 				snprintf(str2, sizeof(str2), "enabling frames\n");
+				started = 1;
+				TIM4->CR1 |= 0x81; // TODO move to function
 				cat(str2);
 			} else if(strcmp(getField(2, 0), "$ATDISF") == 0) {
 				globalEnableFrames = 0;
 				snprintf(str2, sizeof(str2), "disabling frames\n");
+				started = 0;
+				TIM4->CR1 &= ~0x81; // TODO move to function
 				cat(str2);
 			} else if(strcmp(getField(2, 0), "$ATGENF") == 0) {
 				generateFrames = atoi(getField(2, 1));
@@ -235,6 +279,21 @@ int main(void)
 			} else if(strcmp(getField(2, 0), "$ATFRAMES") == 0) {
 				snprintf(str2, sizeof(str2), "$FRAMES,%u*\n", frameCounter);
 				cat(str2);
+			} else if(strcmp(getField(2, 0), "$ATGPS") == 0) {
+				int flag = atoi(getField(2, 1));
+				GpsPower(flag);
+				if (flag) { display(1, "GPS ON", 0); } 
+				else { display(1, "GPS OFF", 0); }
+			} else if(strcmp(getField(2, 0), "$ATLIDAR") == 0) {
+				int flag = atoi(getField(2, 1));
+				LidarPower(flag);
+				if (flag) { display(1, "LIDAR ON", 0); } 
+				else { display(1, "LIDAR OFF", 0); }
+			} else if(strcmp(getField(2, 0), "$ATCAMERA") == 0) {
+				int flag = atoi(getField(2, 1));
+				CameraPower(flag);
+				if (flag) { display(1, "CAMERA ON", 0); } 
+				else { display(1, "CAMERA OFF", 0); }
 			}
 		}
   }

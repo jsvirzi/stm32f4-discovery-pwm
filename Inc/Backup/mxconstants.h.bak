@@ -4,7 +4,7 @@
   * Description        : This file contains the common defines of the application
   ******************************************************************************
   *
-  * COPYRIGHT(c) 2017 STMicroelectronics
+  * COPYRIGHT(c) 2018 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -47,16 +47,30 @@
 #define PPS_PULSE_GPIO_Port GPIOA
 #define RxFromHost_Pin GPIO_PIN_3
 #define RxFromHost_GPIO_Port GPIOA
+#define RED_Pin GPIO_PIN_0
+#define RED_GPIO_Port GPIOB
+#define GREEN_Pin GPIO_PIN_1
+#define GREEN_GPIO_Port GPIOB
 #define PPS_OUT_Pin GPIO_PIN_13
 #define PPS_OUT_GPIO_Port GPIOD
 #define GOOD_PPS_IN_Pin GPIO_PIN_14
 #define GOOD_PPS_IN_GPIO_Port GPIOD
 #define LED_Pin GPIO_PIN_15
 #define LED_GPIO_Port GPIOD
+#define CONOUT_Pin GPIO_PIN_6
+#define CONOUT_GPIO_Port GPIOC
+#define CONIN_Pin GPIO_PIN_7
+#define CONIN_GPIO_Port GPIOC
 #define GPS_NMEA_RxD_Pin GPIO_PIN_10
 #define GPS_NMEA_RxD_GPIO_Port GPIOA
 #define TxToHost_Pin GPIO_PIN_5
 #define TxToHost_GPIO_Port GPIOD
+#define GPSOFF_Pin GPIO_PIN_4
+#define GPSOFF_GPIO_Port GPIOB
+#define LIDOFF_Pin GPIO_PIN_5
+#define LIDOFF_GPIO_Port GPIOB
+#define CAMOFF_Pin GPIO_PIN_6
+#define CAMOFF_GPIO_Port GPIOB
 #define PPS_IN_Pin GPIO_PIN_0
 #define PPS_IN_GPIO_Port GPIOE
 /* USER CODE BEGIN Private defines */
